@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quest Log Contact Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b19e6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f0c18",
+                        "anime-purple": "#6d28d9",
+                        "anime-pink": "#ec4899",
+                        "anime-cyan": "#22d3ee",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glitch': 'glitch 1s linear infinite',
+                    },
+                    keyframes: {
+                        glitch: {
+                            '2%, 64%': { transform: 'translate(2px,0) skew(0deg)' },
+                            '4%, 60%': { transform: 'translate(-2px,0) skew(0deg)' },
+                            '62%': { transform: 'translate(0,0) skew(5deg)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #141121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2447; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b19e6; 
+        }.scanlines::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col overflow-x-hidden">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root">
+<div class="absolute inset-0 z-0 h-full w-full bg-[url('https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&amp;w=2070&amp;auto=format&amp;fit=crop')] bg-cover bg-center bg-no-repeat opacity-20 mix-blend-overlay" data-alt="Anime style lo-fi city skyline at night with neon lights"></div>
+<div class="absolute inset-0 z-0 h-full w-full bg-gradient-to-b from-background-dark/95 via-background-dark/90 to-background-dark"></div>
+<div class="absolute inset-0 z-[5] pointer-events-none scanlines opacity-50"></div>
+<div class="layout-container flex h-full grow flex-col z-10 relative">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#2a2447]/50 px-6 py-4 lg:px-20 backdrop-blur-sm bg-background-dark/30 sticky top-0 z-50">
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 flex items-center justify-center rounded bg-gradient-to-br from-primary to-anime-purple text-white shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-lg">terminal</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-wide drop-shadow-[0_0_10px_rgba(59,25,230,0.5)]">AKIRA.DEV</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+<div class="flex items-center gap-8">
+<a class="text-slate-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] text-sm font-medium transition-all duration-300 relative group" href="#">
+                            Home
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-anime-cyan transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a class="text-slate-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] text-sm font-medium transition-all duration-300 relative group" href="#">
+                            Projects
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-anime-pink transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a class="text-slate-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] text-sm font-medium transition-all duration-300 relative group" href="#">
+                            Skills
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-anime-purple transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] text-sm font-medium transition-all duration-300 relative group" href="#">
+                            Contact
+                            <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-primary transition-all duration-300"></span>
+</a>
+</div>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-transparent border border-primary/50 text-white text-sm font-bold tracking-wide hover:bg-primary/20 hover:border-primary hover:shadow-[0_0_15px_rgba(59,25,230,0.4)] transition-all duration-300">
+<span class="truncate">Resume</span>
+</button>
+</div>
+<div class="md:hidden text-white cursor-pointer">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</header>
+<main class="flex flex-1 flex-col items-center justify-center px-4 lg:px-20 py-8 relative">
+<div class="absolute top-20 right-10 w-64 h-64 border border-anime-purple/10 rounded-full border-dashed animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute bottom-20 left-10 w-48 h-48 border border-anime-cyan/10 rounded-full border-dotted animate-[spin_15s_linear_infinite_reverse]"></div>
+<div class="w-full max-w-6xl relative z-10">
+<div class="mb-8 flex items-end gap-4 border-b border-white/10 pb-4">
+<h1 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-anime-cyan via-white to-anime-pink uppercase tracking-widest drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                            Quest Log
+                        </h1>
+<span class="text-anime-cyan font-mono text-sm mb-2 opacity-80 animate-pulse">SYSTEM_READY // WAITING_FOR_INPUT...</span>
+</div>
+<div class="grid lg:grid-cols-12 gap-6 lg:gap-12">
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="bg-black/40 backdrop-blur-md border border-anime-purple/30 rounded-lg p-6 relative overflow-hidden group hover:border-anime-purple/60 transition-colors">
+<div class="absolute top-0 right-0 p-2 opacity-50">
+<span class="material-symbols-outlined text-4xl text-anime-purple">assignment_late</span>
+</div>
+<h3 class="text-anime-cyan text-sm font-mono tracking-widest uppercase mb-2">Current Objective</h3>
+<p class="text-2xl font-bold text-white mb-4">Establish Communication</p>
+<div class="text-slate-400 text-sm leading-relaxed space-y-2">
+<p>The developer is currently seeking new alliances and challenging projects. Initiate a connection to begin the collaboration sequence.</p>
+<div class="flex items-center gap-2 mt-4 text-xs font-mono text-anime-purple">
+<span class="w-2 h-2 bg-anime-purple rounded-full animate-pulse"></span>
+                                        STATUS: ACTIVE
+                                    </div>
+</div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-anime-purple/50 rounded-br-lg"></div>
+</div>
+<div class="bg-black/40 backdrop-blur-md border border-anime-cyan/30 rounded-lg p-6 relative overflow-hidden group hover:border-anime-cyan/60 transition-colors">
+<div class="absolute top-0 right-0 p-2 opacity-50">
+<span class="material-symbols-outlined text-4xl text-anime-cyan">military_tech</span>
+</div>
+<h3 class="text-anime-pink text-sm font-mono tracking-widest uppercase mb-2">Quest Rewards</h3>
+<ul class="space-y-4 mt-4">
+<li class="flex items-start gap-3">
+<div class="bg-anime-cyan/10 p-1 rounded text-anime-cyan">
+<span class="material-symbols-outlined text-sm">code</span>
+</div>
+<div>
+<p class="text-white font-bold text-sm">High-Quality Code</p>
+<p class="text-slate-500 text-xs">Clean, scalable, and performant solutions.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="bg-anime-pink/10 p-1 rounded text-anime-pink">
+<span class="material-symbols-outlined text-sm">group_add</span>
+</div>
+<div>
+<p class="text-white font-bold text-sm">New Ally</p>
+<p class="text-slate-500 text-xs">A dedicated collaborator for your team.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="bg-primary/10 p-1 rounded text-primary">
+<span class="material-symbols-outlined text-sm">local_cafe</span>
+</div>
+<div>
+<p class="text-white font-bold text-sm">Coffee Chat</p>
+<p class="text-slate-500 text-xs">Virtual or IRL discussion about tech.</p>
+</div>
+</li>
+</ul>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-anime-cyan/50 rounded-bl-lg"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-black/20 border border-white/5 rounded p-3 text-center">
+<div class="text-xs text-slate-500 font-mono uppercase">Response Time</div>
+<div class="text-xl font-bold text-white">&lt; 24h</div>
+</div>
+<div class="bg-black/20 border border-white/5 rounded p-3 text-center">
+<div class="text-xs text-slate-500 font-mono uppercase">Availability</div>
+<div class="text-xl font-bold text-green-400">Online</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7">
+<div class="h-full bg-background-dark/80 backdrop-blur-xl border border-primary/30 rounded-xl p-1 shadow-[0_0_50px_rgba(59,25,230,0.1)] relative">
+<div class="bg-black/60 rounded-t-lg px-4 py-2 flex items-center justify-between border-b border-primary/20">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+<div class="w-3 h-3 rounded-full bg-green-500"></div>
+</div>
+<div class="text-primary/70 font-mono text-xs tracking-wider">MISSION_ENTRY_TERMINAL_V2.0</div>
+</div>
+<div class="p-6 md:p-8 relative">
+<div class="absolute inset-0 bg-[linear-gradient(rgba(59,25,230,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,25,230,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none"></div>
+<form class="space-y-6 relative z-10">
+<div class="space-y-2 group">
+<label class="flex items-center gap-2 text-sm font-mono text-anime-cyan uppercase tracking-wider group-focus-within:text-white transition-colors">
+<span class="material-symbols-outlined text-base">person</span>
+                                                Hero Name
+                                            </label>
+<div class="relative">
+<input class="w-full bg-black/40 border border-white/10 rounded px-4 py-3 text-white placeholder-slate-600 focus:border-anime-cyan focus:ring-1 focus:ring-anime-cyan focus:outline-none transition-all font-mono" placeholder="Enter your designation..." type="text"/>
+<div class="absolute right-0 top-0 h-full w-1 bg-anime-cyan scale-y-0 group-focus-within:scale-y-100 transition-transform origin-bottom"></div>
+</div>
+</div>
+<div class="space-y-2 group">
+<label class="flex items-center gap-2 text-sm font-mono text-anime-cyan uppercase tracking-wider group-focus-within:text-white transition-colors">
+<span class="material-symbols-outlined text-base">alternate_email</span>
+                                                Comm Link
+                                            </label>
+<div class="relative">
+<input class="w-full bg-black/40 border border-white/10 rounded px-4 py-3 text-white placeholder-slate-600 focus:border-anime-cyan focus:ring-1 focus:ring-anime-cyan focus:outline-none transition-all font-mono" placeholder="freq@domain.com" type="email"/>
+<div class="absolute right-0 top-0 h-full w-1 bg-anime-cyan scale-y-0 group-focus-within:scale-y-100 transition-transform origin-bottom"></div>
+</div>
+</div>
+<div class="space-y-2 group">
+<label class="flex items-center gap-2 text-sm font-mono text-anime-cyan uppercase tracking-wider group-focus-within:text-white transition-colors">
+<span class="material-symbols-outlined text-base">data_object</span>
+                                                Intel / Mission Brief
+                                            </label>
+<div class="relative">
+<textarea class="w-full bg-black/40 border border-white/10 rounded px-4 py-3 text-white placeholder-slate-600 focus:border-anime-cyan focus:ring-1 focus:ring-anime-cyan focus:outline-none transition-all font-mono resize-none" placeholder="Describe the mission parameters..." rows="5"></textarea>
+<div class="absolute right-0 top-0 h-full w-1 bg-anime-cyan scale-y-0 group-focus-within:scale-y-100 transition-transform origin-bottom"></div>
+</div>
+</div>
+<button class="group relative w-full h-16 mt-4 bg-primary/20 border border-primary text-primary hover:bg-primary hover:text-white uppercase font-bold tracking-[0.2em] transition-all duration-300 overflow-hidden flex items-center justify-center" type="button">
+<span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1s_infinite]"></span>
+<span class="relative z-10 flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl group-hover:animate-bounce">ads_click</span>
+                                                Accept Quest
+                                            </span>
+<div class="absolute inset-0 opacity-0 group-hover:opacity-100 shadow-[0_0_30px_rgba(59,25,230,0.8)] transition-opacity duration-300"></div>
+</button>
+<div class="text-center">
+<span class="text-[10px] text-slate-600 font-mono">By accepting this quest, you agree to the Intergalactic Protocol of Collaboration.</span>
+</div>
+</form>
+</div>
+<div class="absolute bottom-4 left-4 text-[10px] text-primary/40 font-mono hidden md:block">
+                                    SYS.ID: 847-22-X
+                                </div>
+<div class="absolute bottom-4 right-4 text-[10px] text-primary/40 font-mono hidden md:block">
+                                    SECURE_CONNECTION
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background-dark to-transparent pointer-events-none z-0"></div>
+</div>
+<style>
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+
+</body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Showcase - DevPortfolio</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b19e6",
+                        "primary-content": "#ffffff",
+                        "primary-dark": "#2a12b3",
+                        "primary-light": "#6347ff",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#141122",
+                        "surface-dark": "#1e1a32",
+                        "surface-dark-hover": "#25213d",
+                        "border-dark": "#2a2447",
+                        "text-main": "#ffffff",
+                        "text-muted": "#9c93c8",
+                    },
+                    fontFamily: {
+                        display: ["Space Grotesk", "sans-serif"],
+                        body: ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .anime-glow:hover {
+            box-shadow: 0 0 15px 2px rgba(59, 25, 230, 0.5);
+            border-color: #6347ff;
+        }
+        .rpg-tag {
+            background: linear-gradient(135deg, rgba(42, 36, 71, 0.8) 0%, rgba(30, 26, 50, 0.8) 100%);
+            border: 1px solid #3b19e6;
+            box-shadow: inset 0 0 4px rgba(59, 25, 230, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-body text-slate-900 dark:text-text-main antialiased overflow-x-hidden min-h-screen flex flex-col">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-background-dark/80 backdrop-blur-md px-6 md:px-10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-[32px]">deployed_code</span>
+</div>
+<h2 class="text-white text-xl font-display font-bold leading-tight tracking-tight">DevPortfolio</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-9">
+<a class="text-text-muted hover:text-white transition-colors text-sm font-medium leading-normal font-display" href="#">Home</a>
+<a class="text-white text-sm font-medium leading-normal font-display border-b-2 border-primary" href="#">Projects</a>
+<a class="text-text-muted hover:text-white transition-colors text-sm font-medium leading-normal font-display" href="#">About</a>
+<a class="text-text-muted hover:text-white transition-colors text-sm font-medium leading-normal font-display" href="#">Contact</a>
+</nav>
+<button class="flex min-w-21 cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-primary hover:bg-primary-light transition-all text-white text-sm font-bold font-display leading-normal tracking-wide shadow-[0_0_10px_rgba(59,25,230,0.4)]">
+<span class="truncate">Hire Me</span>
+</button>
+</div>
+<button class="md:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<main class="flex-1 flex flex-col items-center w-full px-4 md:px-10 py-8 md:py-12">
+<div class="w-full max-w-300 flex flex-col gap-10">
+<!-- Hero Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border-dark pb-8">
+<div class="flex flex-col gap-2 max-w-2xl">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">swords</span>
+<span class="text-primary font-display font-bold text-sm tracking-widest uppercase">Quest Log</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-display font-black leading-tight tracking-tight text-white">
+                            My Projects &amp;<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-light to-blue-400">Digital Artifacts</span>
+</h1>
+<p class="text-text-muted text-lg mt-2 max-w-lg">
+                            A curated collection of web applications, experiments, and open-source contributions. Leveling up one commit at a time.
+                        </p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 h-10 px-4 rounded-lg border border-border-dark bg-surface-dark hover:bg-surface-dark-hover text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+                            View Github
+                        </button>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap gap-3 items-center">
+<span class="text-text-muted text-sm font-medium mr-2">Filter by Tech:</span>
+<button class="group flex items-center gap-2 h-9 px-4 rounded-full bg-primary text-white text-sm font-medium shadow-[0_0_8px_rgba(59,25,230,0.3)] transition-all">
+<span class="material-symbols-outlined text-[18px]">apps</span>
+                        All
+                    </button>
+<button class="group flex items-center gap-2 h-9 px-4 rounded-full bg-surface-dark border border-border-dark hover:border-primary/50 text-text-muted hover:text-white text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-[18px]">code_blocks</span>
+                        React
+                    </button>
+<button class="group flex items-center gap-2 h-9 px-4 rounded-full bg-surface-dark border border-border-dark hover:border-primary/50 text-text-muted hover:text-white text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-[18px]">javascript</span>
+                        TypeScript
+                    </button>
+<button class="group flex items-center gap-2 h-9 px-4 rounded-full bg-surface-dark border border-border-dark hover:border-primary/50 text-text-muted hover:text-white text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-[18px]">dns</span>
+                        Node.js
+                    </button>
+<button class="group flex items-center gap-2 h-9 px-4 rounded-full bg-surface-dark border border-border-dark hover:border-primary/50 text-text-muted hover:text-white text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-[18px]">palette</span>
+                        UI/UX
+                    </button>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<article class="group relative flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark transition-all duration-300 anime-glow hover:-translate-y-1">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="Futuristic neon city dashboard interface" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBxHUjlhX0Pruf9_FguHF66EnlHq1u5atxK-ME-I9VS_kYEeGKlVb9W9n3OtfUC1ifPmoYmswltGjmdfRbOk0VJfEVJlH88KYDa2CApDOMC5v8i4dCM-z-aVdGzhBXklyOJV0aRMLa7lPLquzfk44IWtHk1bKiF88uLHXw_g3B9QH5Ok6CwykUFdcp5-G5avScl2EWWMEyXRjb7-LfrId-bSy_yZM7ZcM-VAmQg34ApFq7Na8wmGdz3kErA1Sb638UNG83RQvvkxX4z');"></div>
+<div class="absolute top-3 right-3 z-20">
+<span class="px-2 py-1 rounded text-xs font-bold bg-black/50 text-primary-light border border-primary/30 backdrop-blur-sm">v2.0</span>
+</div>
+</div>
+<div class="flex flex-col flex-grow p-5 gap-3">
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-display font-bold text-white group-hover:text-primary-light transition-colors">Neon City Dashboard</h3>
+<a class="text-text-muted hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">open_in_new</span>
+</a>
+</div>
+<p class="text-text-muted text-sm leading-relaxed mb-2 line-clamp-2">
+                                A futuristic dashboard for managing IoT devices in a smart city environment featuring real-time data visualization.
+                            </p>
+<div class="mt-auto flex flex-wrap gap-2">
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-primary-light tracking-wide uppercase">React</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-blue-300 tracking-wide uppercase">Redux</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-purple-300 tracking-wide uppercase">D3.js</span>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="group relative flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark transition-all duration-300 anime-glow hover:-translate-y-1">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="Ethereal ecommerce interface with floating elements" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWx2OYmwT1tK09KeS6zoZu4p78_lSaaqYR10V-vtUR-DtXt8jX2hzTIDT4j_ZDU4ZFiuEGRmDl2dh_Ctk0Nxc1c2x3FnIyFnLSiH0vDJfPfudTUBbb2ihuBoNszGWYCyFsmcpPeQDCav2rAX0VVt_DUhBsYPvrSmNHUcuJS2qnHn0mtkobcjJoH8pPFHVBBE95p55PMofIX-0K8W8YLe6Tn4KF2IBhDOYTahj-wqoLNt0we5xoZDJ6X9lNCJeaBAFzkz3IV5nXvaPl');"></div>
+</div>
+<div class="flex flex-col flex-grow p-5 gap-3">
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-display font-bold text-white group-hover:text-primary-light transition-colors">Spirit Realm E-com</h3>
+<a class="text-text-muted hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">open_in_new</span>
+</a>
+</div>
+<p class="text-text-muted text-sm leading-relaxed mb-2 line-clamp-2">
+                                An immersive shopping experience for spiritual goods with smooth animations and ghostly transitions.
+                            </p>
+<div class="mt-auto flex flex-wrap gap-2">
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-primary-light tracking-wide uppercase">Next.js</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-teal-300 tracking-wide uppercase">Tailwind</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-indigo-300 tracking-wide uppercase">Stripe</span>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="group relative flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark transition-all duration-300 anime-glow hover:-translate-y-1">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="Dark cyber analytics dashboard graphs" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC306bWD_70sHAHzqwzFVi2NMsDM47c5s8F1L8NVzZmroAVesqipl3Jrffk_JtmW4jbARuNlW3LYXz-QVypD0OF_wJaJRaGy_XteyzdtA6FcgtR6LAbPi0dF6j3lNHdjZXSmwWCUtghXImWmZRBk-j_5Vx3WdYErbrFp_RR8K1WeufQq4lF3MLr75weuF-qnzHQeqBMptJ_vrGKE0hzwTkbbxKqdk5d6q8FYT4ZfbMkjF4aH6A5IHfIz8wgxYxdt0oflx7A6uIkU2RL');"></div>
+<div class="absolute top-3 right-3 z-20">
+<span class="px-2 py-1 rounded text-xs font-bold bg-primary text-white border border-primary-light shadow-[0_0_8px_rgba(59,25,230,0.6)]">HOT</span>
+</div>
+</div>
+<div class="flex flex-col flex-grow p-5 gap-3">
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-display font-bold text-white group-hover:text-primary-light transition-colors">Cyber Analytics</h3>
+<a class="text-text-muted hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">open_in_new</span>
+</a>
+</div>
+<p class="text-text-muted text-sm leading-relaxed mb-2 line-clamp-2">
+                                High-performance analytics platform processing millions of data points with WebGL rendering.
+                            </p>
+<div class="mt-auto flex flex-wrap gap-2">
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-orange-300 tracking-wide uppercase">Rust</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-blue-300 tracking-wide uppercase">WASM</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-primary-light tracking-wide uppercase">React</span>
+</div>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="group relative flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark transition-all duration-300 anime-glow hover:-translate-y-1">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="Gamified task list app interface" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDTr1yUG22KcV-3eVkIgJ3fRpymJ2XP6Rp-10C-j88HtifNjvqdSnYB3wBfDeOGIZCS5lPVA1-zDeXGUPnBtu51iBX7m6_uwa52LwQy5UeXOTzseR0dqqsHjlGLWm03Tm0gDRuGA-3TUMpbhIxJA7h-UPqidwY6ZVk41iVAjX_4QrggSZJezQRT3k5jDY8CdmQS75D9l60LoF-WJBBb92EwGT1faiw7vp5KJk2Qrtu5GfNo5_3YwTclzNWR-MJttZxnRChYXTUATyPE');"></div>
+</div>
+<div class="flex flex-col flex-grow p-5 gap-3">
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-display font-bold text-white group-hover:text-primary-light transition-colors">Task RPG</h3>
+<a class="text-text-muted hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">open_in_new</span>
+</a>
+</div>
+<p class="text-text-muted text-sm leading-relaxed mb-2 line-clamp-2">
+                                Turn your daily chores into an epic quest. A productivity app that gamifies your life.
+                            </p>
+<div class="mt-auto flex flex-wrap gap-2">
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-green-300 tracking-wide uppercase">Vue</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-yellow-300 tracking-wide uppercase">Firebase</span>
+</div>
+</div>
+</article>
+<!-- Card 5 -->
+<article class="group relative flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark transition-all duration-300 anime-glow hover:-translate-y-1">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="Crypto wallet secure vault interface" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDp4E9zCmuXRz4ACEsQBx16ia4jrG2b_9rHjaZT0JKkIYlv62ncBpcXsbWiFjkwHgT6g2rcNq4veIszRgSQmvN6WP0JrWwBayURQlGmGMBv8mvL4EbwWPmqCsiBsl7HGN7SBXFosStKoeZ30on8rsNe40-YfVQr_DMQGOpIozu2FMNrLWGDmGpgZCpxFRdVKfh-gg0spJMSPCs3oEZ6fBs-oAUGqDcxY2MyUFvekvpaxhNxxVdbSvB1OwRloWDNyEPuyZpoXCmCze4P');"></div>
+</div>
+<div class="flex flex-col flex-grow p-5 gap-3">
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-display font-bold text-white group-hover:text-primary-light transition-colors">Crypto Vault</h3>
+<a class="text-text-muted hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">open_in_new</span>
+</a>
+</div>
+<p class="text-text-muted text-sm leading-relaxed mb-2 line-clamp-2">
+                                A secure, non-custodial wallet for managing your digital assets across multiple chains.
+                            </p>
+<div class="mt-auto flex flex-wrap gap-2">
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-primary-light tracking-wide uppercase">Solidity</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-blue-300 tracking-wide uppercase">Web3.js</span>
+</div>
+</div>
+</article>
+<!-- Card 6 -->
+<article class="group relative flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark transition-all duration-300 anime-glow hover:-translate-y-1">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="AI Chat bot conversation interface" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBbWt8ke0kS-jzODar92ynpcDSr_nTQIC4SBiyL4DyFJe2t55pUnEm-mvH9KimuEn3oB5c8AnNZg7SuvoZ2_fMtsHg777q_1oc3zVMNgHhQwBEY5VZWrelUDyxFAoDvDnfe71yL-8m6Jv00qi_-t7fHU67OVADQyVAeCB0CSFxTUBpfTkC5aIsk8M4QYFfA8S0K7qSX7L-CuP_WiU3yBothxIwLFBZfc34mZlKdF-9X00sSaUB3_jwYzLf2VwS-vVIwon4UwfsLYmNX');"></div>
+</div>
+<div class="flex flex-col flex-grow p-5 gap-3">
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-display font-bold text-white group-hover:text-primary-light transition-colors">Sentient AI</h3>
+<a class="text-text-muted hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">open_in_new</span>
+</a>
+</div>
+<p class="text-text-muted text-sm leading-relaxed mb-2 line-clamp-2">
+                                An advanced conversational AI interface powered by LLMs with a custom personality engine.
+                            </p>
+<div class="mt-auto flex flex-wrap gap-2">
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-pink-300 tracking-wide uppercase">Python</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-primary-light tracking-wide uppercase">FastAPI</span>
+<span class="rpg-tag px-2 py-1 rounded text-[10px] font-bold text-blue-300 tracking-wide uppercase">OpenAI</span>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination / Load More -->
+<div class="flex justify-center mt-8">
+<button class="flex items-center gap-2 h-12 px-8 rounded-lg border-2 border-primary bg-transparent hover:bg-primary/10 text-primary hover:text-primary-light text-base font-bold font-display tracking-wider transition-all uppercase">
+                        Load More Quests
+                        <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+</main>
+<footer class="border-t border-border-dark bg-background-dark py-8 px-10">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-text-muted text-sm font-display">© 2024 DevPortfolio. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-text-muted hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">mail</span>
+</a>
+<a class="text-text-muted hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">code</span>
+</a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DevPortfolio - Skills &amp; Stats</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b19e6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#141121",
+                        "surface-dark": "#1e1a32",
+                        "surface-border": "#2a2447",
+                    },
+                    fontFamily: {
+                        display: ["Space Grotesk", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #141121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2447; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b19e6; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-surface-border bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">terminal</span>
+<span class="text-xl font-bold tracking-tight">DevPortfolio</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium text-primary" href="#">Skills &amp; Stats</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Quests</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="rounded-full p-2 hover:bg-surface-border/50 transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-purple-500 p-[2px]">
+<div class="h-full w-full rounded-full bg-background-dark overflow-hidden">
+<img alt="User Avatar" class="h-full w-full object-cover" data-alt="Small circular user avatar image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIhHVN9cg4EbBkBHqcvtQMkuQJMFV6Y1isFLNVUoGYas_wFWHVr2lAGWqIUtCgjj8kNM2IuHcyod5hkq5VAjuRcUV_L5nxKgAP71oWaGIbaVfrMYYzEp8p3DAkrA7vFfnF2cLcjDMB1_FtRI_9y-aTrpZlHpGRxKTf0JqAiSGel-7Z7FFmVsxmwlfs8nYhZQK1P5n7BP8_0pq6KH-OaQLkhyOI5bDYBr2SN3prX4G0_HN_0aeNHpuXsCfbpc90rXIVwyog3WgelFwq"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="grow w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-8">
+<!-- Left Column: Character Profile -->
+<div class="w-full lg:w-1/3 flex flex-col gap-6">
+<!-- Character Card -->
+<div class="relative overflow-hidden rounded-2xl border border-surface-border bg-surface-dark p-1 shadow-2xl">
+<!-- Decorative background elements behind character -->
+<div class="absolute top-0 left-0 w-full h-full opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(59,25,230,0.4),transparent_70%)]"></div>
+<div class="relative z-10 aspect-[3/4] w-full overflow-hidden rounded-xl bg-gradient-to-b from-slate-800 to-slate-900">
+<img alt="Anime style developer character portrait" class="h-full w-full object-cover object-top opacity-90 hover:scale-105 transition-transform duration-500" data-alt="Anime style professional developer portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD48Wo9_tNQwFABX-DQ2wwLycbz0Lcn1nZxqEIPe_af9AvwnzwfBK-2-Z3FMYyt7lnIzgDrvfc1mU_ZNmm987QmejLLOfVinpRq9WNK-hdcIGRv0HN7W6uy8kSgX_NfgISugfU8Nb90SuSV4J0NJDdmU0sFbu9bPJ44d7RgAmWcZpJo3UxTa9BRmdT6ov38r6DzoaHkurZkZN6NyKiDatrkDZidxui_U56X6rxqvAQjWD3onRXLEvwWiJO6RtBDsBYHYDHijN5qVTWY"/>
+<!-- Floating Badge -->
+<div class="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-black/60 px-3 py-1 text-xs font-bold text-white backdrop-blur-sm border border-white/10">
+<span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span>ONLINE</span>
+</div>
+<!-- Level Badge -->
+<div class="absolute bottom-4 right-4 h-16 w-16 flex items-center justify-center rounded-full bg-primary border-4 border-surface-dark shadow-lg">
+<div class="text-center">
+<div class="text-[10px] font-bold uppercase tracking-wider text-white/80">LVL</div>
+<div class="text-2xl font-black leading-none text-white">30</div>
+</div>
+</div>
+</div>
+<!-- Character Info -->
+<div class="p-5">
+<h1 class="text-2xl font-bold text-white mb-1">Alex "The Architect" Chen</h1>
+<p class="text-primary font-medium text-sm mb-4">Full Stack Mage / System Designer</p>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-sm">
+<span class="text-slate-400">Class</span>
+<span class="text-slate-200 font-semibold">Technomancer</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-slate-400">Guild</span>
+<span class="text-slate-200 font-semibold">Freelance</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-slate-400">Exp</span>
+<span class="text-slate-200 font-semibold">8,450 / 10,000</span>
+</div>
+<!-- EXP Bar -->
+<div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-black/40">
+<div class="h-full w-[84%] bg-gradient-to-r from-primary to-purple-500"></div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="mt-6 flex gap-3">
+<button class="flex-1 rounded-lg bg-primary py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all active:scale-95">
+                            Party Up (Hire)
+                        </button>
+<button class="flex items-center justify-center rounded-lg border border-surface-border bg-surface-dark px-3 text-white hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Mini Quest Log / Recent Activity -->
+<div class="rounded-2xl border border-surface-border bg-surface-dark p-5">
+<h3 class="flex items-center gap-2 text-lg font-bold text-white mb-4">
+<span class="material-symbols-outlined text-yellow-500">assignment</span>
+                    Active Quests
+                </h3>
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<div class="mt-1 flex h-2 w-2 flex-none rounded-full bg-blue-400"></div>
+<div>
+<p class="text-sm font-medium text-slate-200">Refactor Legacy Codebase</p>
+<p class="text-xs text-slate-500">In Progress - 65% Complete</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="mt-1 flex h-2 w-2 flex-none rounded-full bg-green-400"></div>
+<div>
+<p class="text-sm font-medium text-slate-200">Deploy Payment Gateway</p>
+<p class="text-xs text-slate-500">Completed - Pending Review</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Skills & Stats -->
+<div class="w-full lg:w-2/3 flex flex-col gap-6">
+<!-- Bio Section -->
+<div class="rounded-2xl border border-surface-border bg-surface-dark p-6 md:p-8">
+<div class="flex items-start gap-4">
+<div class="rounded-lg bg-primary/10 p-3 text-primary hidden sm:block">
+<span class="material-symbols-outlined text-3xl">auto_stories</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-white mb-3">Character Bio</h2>
+<p class="text-slate-300 leading-relaxed text-base md:text-lg">
+                            Passionate developer with over 5 years of experience crafting digital experiences. I specialize in building scalable frontend architectures and robust backend systems. Like any good RPG character, I'm constantly grinding to level up my skills and unlock new technologies. Currently focused on mastering WebGL and serverless infrastructure.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Core Tech (Offensive Skills) -->
+<div class="rounded-2xl border border-surface-border bg-surface-dark p-6">
+<div class="mb-6 flex items-center justify-between border-b border-surface-border pb-4">
+<h3 class="flex items-center gap-2 text-xl font-bold text-white">
+<span class="material-symbols-outlined text-red-500">swords</span>
+                            Core Tech
+                        </h3>
+<span class="text-xs font-mono text-slate-500">OFFENSIVE</span>
+</div>
+<div class="space-y-5">
+<!-- Skill Item -->
+<div class="group">
+<div class="mb-1 flex justify-between text-sm">
+<span class="font-bold text-slate-200">React / Next.js</span>
+<span class="text-primary font-mono">LVL 95</span>
+</div>
+<div class="relative h-3 w-full overflow-hidden rounded-full bg-black/40">
+<div class="absolute top-0 left-0 h-full w-[95%] rounded-full bg-gradient-to-r from-red-500 to-orange-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+<!-- Shine effect -->
+<div class="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite]"></div>
+</div>
+</div>
+<!-- Skill Item -->
+<div class="group">
+<div class="mb-1 flex justify-between text-sm">
+<span class="font-bold text-slate-200">TypeScript</span>
+<span class="text-primary font-mono">LVL 88</span>
+</div>
+<div class="relative h-3 w-full overflow-hidden rounded-full bg-black/40">
+<div class="absolute top-0 left-0 h-full w-[88%] rounded-full bg-gradient-to-r from-red-500 to-orange-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+</div>
+</div>
+<!-- Skill Item -->
+<div class="group">
+<div class="mb-1 flex justify-between text-sm">
+<span class="font-bold text-slate-200">Node.js</span>
+<span class="text-primary font-mono">LVL 82</span>
+</div>
+<div class="relative h-3 w-full overflow-hidden rounded-full bg-black/40">
+<div class="absolute top-0 left-0 h-full w-[82%] rounded-full bg-gradient-to-r from-red-500 to-orange-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+</div>
+</div>
+<!-- Skill Item -->
+<div class="group">
+<div class="mb-1 flex justify-between text-sm">
+<span class="font-bold text-slate-200">Tailwind CSS</span>
+<span class="text-primary font-mono">LVL 98</span>
+</div>
+<div class="relative h-3 w-full overflow-hidden rounded-full bg-black/40">
+<div class="absolute top-0 left-0 h-full w-[98%] rounded-full bg-gradient-to-r from-red-500 to-orange-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tools & Infra (Support Skills) -->
+<div class="rounded-2xl border border-surface-border bg-surface-dark p-6">
+<div class="mb-6 flex items-center justify-between border-b border-surface-border pb-4">
+<h3 class="flex items-center gap-2 text-xl font-bold text-white">
+<span class="material-symbols-outlined text-blue-400">shield</span>
+                            Tools &amp; Infra
+                        </h3>
+<span class="text-xs font-mono text-slate-500">DEFENSIVE</span>
+</div>
+<div class="space-y-5">
+<!-- Skill Item -->
+<div class="group">
+<div class="mb-1 flex justify-between text-sm">
+<span class="font-bold text-slate-200">Docker / K8s</span>
+<span class="text-primary font-mono">LVL 75</span>
+</div>
+<div class="relative h-3 w-full overflow-hidden rounded-full bg-black/40">
+<div class="absolute top-0 left-0 h-full w-[75%] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+</div>
+</div>
+<!-- Skill Item -->
+<div class="group">
+<div class="mb-1 flex justify-between text-sm">
+<span class="font-bold text-slate-200">PostgreSQL</span>
+<span class="text-primary font-mono">LVL 80</span>
+</div>
+<div class="relative h-3 w-full overflow-hidden rounded-full bg-black/40">
+<div class="absolute top-0 left-0 h-full w-[80%] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+</div>
+</div>
+<!-- Skill Item -->
+<div class="group">
+<div class="mb-1 flex justify-between text-sm">
+<span class="font-bold text-slate-200">Git / CI/CD</span>
+<span class="text-primary font-mono">LVL 90</span>
+</div>
+<div class="relative h-3 w-full overflow-hidden rounded-full bg-black/40">
+<div class="absolute top-0 left-0 h-full w-[90%] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+</div>
+</div>
+<!-- Skill Item -->
+<div class="group">
+<div class="mb-1 flex justify-between text-sm">
+<span class="font-bold text-slate-200">Figma</span>
+<span class="text-primary font-mono">LVL 65</span>
+</div>
+<div class="relative h-3 w-full overflow-hidden rounded-full bg-black/40">
+<div class="absolute top-0 left-0 h-full w-[65%] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Attributes Hexagon Area -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Attribute Card -->
+<div class="md:col-span-2 rounded-2xl border border-surface-border bg-surface-dark p-6">
+<h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-purple-400">psychology</span>
+                        Passive Abilities
+                    </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="rounded-lg bg-surface-border/30 p-4 hover:bg-surface-border/50 transition-colors cursor-default">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-1.5 rounded bg-yellow-500/20 text-yellow-500">
+<span class="material-symbols-outlined text-xl">lightbulb</span>
+</div>
+<h4 class="font-bold text-slate-100">Quick Learner</h4>
+</div>
+<p class="text-xs text-slate-400">+50% EXP gain when learning new frameworks.</p>
+</div>
+<div class="rounded-lg bg-surface-border/30 p-4 hover:bg-surface-border/50 transition-colors cursor-default">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-1.5 rounded bg-green-500/20 text-green-500">
+<span class="material-symbols-outlined text-xl">bug_report</span>
+</div>
+<h4 class="font-bold text-slate-100">Bug Hunter</h4>
+</div>
+<p class="text-xs text-slate-400">Increases debugging speed by 30% in production environments.</p>
+</div>
+<div class="rounded-lg bg-surface-border/30 p-4 hover:bg-surface-border/50 transition-colors cursor-default">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-1.5 rounded bg-blue-500/20 text-blue-500">
+<span class="material-symbols-outlined text-xl">group</span>
+</div>
+<h4 class="font-bold text-slate-100">Team Buff</h4>
+</div>
+<p class="text-xs text-slate-400">Boosts morale of nearby developers during sprint planning.</p>
+</div>
+<div class="rounded-lg bg-surface-border/30 p-4 hover:bg-surface-border/50 transition-colors cursor-default">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-1.5 rounded bg-red-500/20 text-red-500">
+<span class="material-symbols-outlined text-xl">coffee</span>
+</div>
+<h4 class="font-bold text-slate-100">Caffeine Fuel</h4>
+</div>
+<p class="text-xs text-slate-400">Restores stamina. Cooldown: 4 hours.</p>
+</div>
+</div>
+</div>
+<!-- Stats Hexagon / Radar Chart Representation -->
+<div class="rounded-2xl border border-surface-border bg-surface-dark p-6 flex flex-col items-center justify-center">
+<h3 class="text-lg font-bold text-white mb-2 w-full text-left">Stats Radar</h3>
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- Background Radar Web -->
+<svg class="w-full h-full opacity-30" viewbox="0 0 100 100">
+<polygon fill="none" points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="#64748b" stroke-width="0.5"></polygon>
+<polygon fill="none" points="50,20 80,35 80,65 50,80 20,65 20,35" stroke="#64748b" stroke-width="0.5"></polygon>
+<polygon fill="none" points="50,35 65,42.5 65,57.5 50,65 35,57.5 35,42.5" stroke="#64748b" stroke-width="0.5"></polygon>
+<line stroke="#64748b" stroke-width="0.5" x1="50" x2="50" y1="50" y2="5"></line>
+<line stroke="#64748b" stroke-width="0.5" x1="50" x2="95" y1="50" y2="27.5"></line>
+<line stroke="#64748b" stroke-width="0.5" x1="50" x2="95" y1="50" y2="72.5"></line>
+<line stroke="#64748b" stroke-width="0.5" x1="50" x2="50" y1="50" y2="95"></line>
+<line stroke="#64748b" stroke-width="0.5" x1="50" x2="5" y1="50" y2="72.5"></line>
+<line stroke="#64748b" stroke-width="0.5" x1="50" x2="5" y1="50" y2="27.5"></line>
+</svg>
+<!-- Data Polygon -->
+<svg class="absolute w-full h-full drop-shadow-[0_0_10px_rgba(59,25,230,0.5)]" viewbox="0 0 100 100">
+<polygon class="animate-[pulse_3s_infinite]" fill="rgba(59, 25, 230, 0.4)" points="50,10 90,30 85,70 50,85 15,65 20,30" stroke="#3b19e6" stroke-width="2"></polygon>
+</svg>
+<!-- Labels -->
+<div class="absolute top-0 text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-surface-dark px-1">INT</div>
+<div class="absolute bottom-0 text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-surface-dark px-1">STR</div>
+<div class="absolute top-12 left-1 text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-surface-dark px-1">DEX</div>
+<div class="absolute top-12 right-1 text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-surface-dark px-1">VIT</div>
+<div class="absolute top-[80%] left-4 text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-surface-dark px-1">AGI</div>
+<div class="absolute top-[80%] right-4 text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-surface-dark px-1">LUCK</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="border-t border-surface-border bg-background-dark py-8 mt-auto">
+<div class="mx-auto max-w-7xl px-4 text-center text-slate-500">
+<p class="text-sm">© 2023 DevPortfolio. All attributes maxed out.</p>
+</div>
+</footer>
+</body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b19e6",
+                        "accent-cyan": "#00f2ff",
+                        "accent-purple": "#bc13fe",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0a0910",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .neon-glow-text {
+            text-shadow: 0 0 10px rgba(188, 19, 254, 0.8), 0 0 20px rgba(59, 25, 230, 0.6);
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+        .bg-grid {
+            background-image: linear-gradient(to right, rgba(59, 25, 230, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(59, 25, 230, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .rpg-panel {
+            background: linear-gradient(135deg, rgba(20, 17, 33, 0.95) 0%, rgba(10, 9, 16, 0.98) 100%);
+            border: 1px solid rgba(59, 25, 230, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen overflow-x-hidden">
+<div class="relative min-h-screen w-full flex flex-col bg-grid">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/20 px-6 md:px-10 py-4 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight text-slate-100 uppercase tracking-widest">
+                    DevQuest<span class="text-accent-cyan">.OS</span>
+</h2>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-400 hover:text-accent-cyan transition-colors text-sm font-medium uppercase tracking-tighter" href="#">Inventory</a>
+<a class="text-slate-400 hover:text-accent-cyan transition-colors text-sm font-medium uppercase tracking-tighter" href="#">Skills</a>
+<a class="text-slate-400 hover:text-accent-cyan transition-colors text-sm font-medium uppercase tracking-tighter" href="#">Logs</a>
+</nav>
+<div class="size-10 rounded-full border-2 border-primary/50 overflow-hidden bg-cover bg-center" data-alt="Anime styled futuristic pilot avatar profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAR9hdfiWdKS1WpiaQtL6gSC97aBsdv0c_M9JV0pR6bSB6Q1C_iW8n4zBA-0yt9_mcmaDFDZw8PTTXjp9347Ny71r-LOdGBNu9AdnopvmdIDw0G9kakBUcsSPq8LnlAKRUzQP-P55iVlZG_Tpdvu_lfF66uJ-GGrRFKlgxARDNxopx7scxq3YQzkAN4Ts6y77v6eCipkPoYnw9S0Ix_rED88--elG78-Gk035HATPtytzgkuzM027TwEauZJxzEcXAqPhUK133uKQv5')">
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center p-4 md:p-8 relative">
+<!-- Decorative Elements -->
+<div class="absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-20 right-10 w-40 h-40 bg-accent-purple/20 rounded-full blur-[100px]"></div>
+<!-- Victory Header -->
+<div class="text-center mb-12 relative">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 flex gap-4 text-accent-cyan opacity-50">
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined text-4xl -mt-2">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+<h1 class="text-5xl md:text-8xl font-black italic text-white neon-glow-text tracking-tighter mb-2">QUEST COMPLETE</h1>
+<div class="flex items-center justify-center gap-3">
+<span class="h-px w-12 bg-accent-cyan"></span>
+<p class="text-accent-cyan text-lg font-bold tracking-[0.2em] uppercase">Level Up! Full-Stack Sorcerer Class Unlocked</p>
+<span class="h-px w-12 bg-accent-cyan"></span>
+</div>
+</div>
+<div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Rewards Section -->
+<div class="rpg-panel rounded-xl p-6 neon-border">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-accent-purple">auto_awesome</span>
+<h3 class="text-xl font-bold uppercase tracking-widest text-white">Quest Rewards</h3>
+</div>
+<div class="space-y-4">
+<!-- Reward 1 -->
+<div class="flex items-center justify-between p-4 bg-primary/10 border border-primary/20 rounded-lg group hover:border-accent-cyan transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded bg-background-dark border border-primary/40 flex items-center justify-center text-primary group-hover:text-accent-cyan">
+<span class="material-symbols-outlined text-3xl">code</span>
+</div>
+<div>
+<p class="text-white font-bold text-sm uppercase">Item Gained</p>
+<p class="text-slate-400 text-xs">GitHub Repository Access</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-accent-cyan">check_circle</span>
+</div>
+<!-- Reward 2 -->
+<div class="flex items-center justify-between p-4 bg-primary/10 border border-primary/20 rounded-lg group hover:border-accent-cyan transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded bg-background-dark border border-primary/40 flex items-center justify-center text-primary group-hover:text-accent-cyan">
+<span class="material-symbols-outlined text-3xl">description</span>
+</div>
+<div>
+<p class="text-white font-bold text-sm uppercase">Loot Acquired</p>
+<p class="text-slate-400 text-xs">Professional_Resume.pdf</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-accent-cyan">download</span>
+</div>
+<!-- Reward 3 -->
+<div class="flex items-center justify-between p-4 bg-primary/10 border border-primary/20 rounded-lg group hover:border-accent-cyan transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded bg-background-dark border border-primary/40 flex items-center justify-center text-primary group-hover:text-accent-cyan">
+<span class="material-symbols-outlined text-3xl">alternate_email</span>
+</div>
+<div>
+<p class="text-white font-bold text-sm uppercase">Skill Unlocked</p>
+<p class="text-slate-400 text-xs">Direct Neural Connection (Twitter/X)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-600">lock_open</span>
+</div>
+</div>
+</div>
+<!-- Loot Summary Section -->
+<div class="rpg-panel rounded-xl p-6 border-accent-purple/40">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-accent-cyan">inventory_2</span>
+<h3 class="text-xl font-bold uppercase tracking-widest text-white">Loot Summary</h3>
+</div>
+<div class="bg-black/40 rounded-lg p-5 border border-primary/10 h-full flex flex-col">
+<div class="flex items-center justify-between mb-4 border-b border-primary/20 pb-2">
+<span class="text-xs text-primary font-bold uppercase tracking-tighter">Transmission Log #772</span>
+<span class="text-xs text-slate-500 font-mono">10:42 PM</span>
+</div>
+<div class="space-y-4 flex-1">
+<div>
+<label class="text-[10px] text-accent-cyan uppercase font-bold tracking-widest block mb-1">Sender</label>
+<p class="text-sm text-slate-200 font-medium">Captain.Vanguard@Alliance.space</p>
+</div>
+<div>
+<label class="text-[10px] text-accent-cyan uppercase font-bold tracking-widest block mb-1">Subject</label>
+<p class="text-sm text-slate-200 font-medium">Project: Nebula Engine Collaboration</p>
+</div>
+<div>
+<label class="text-[10px] text-accent-cyan uppercase font-bold tracking-widest block mb-1">Message Preview</label>
+<p class="text-sm text-slate-400 leading-relaxed italic">
+                                    "System initialized. We are impressed by your development capabilities shown in the latest sector missions. Requesting extraction of your portfolio for further evaluation..."
+                                </p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between pt-4 border-t border-primary/20">
+<div class="flex flex-col">
+<span class="text-[10px] text-slate-500 uppercase">EXP GAINED</span>
+<span class="text-lg font-bold text-accent-purple">+1,250 XP</span>
+</div>
+<div class="flex flex-col text-right">
+<span class="text-[10px] text-slate-500 uppercase">GOLD</span>
+<span class="text-lg font-bold text-accent-cyan">500G</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="mt-12 flex flex-col md:flex-row gap-4 w-full max-w-lg">
+<a class="flex-1 bg-primary hover:bg-primary/80 text-white font-bold py-4 px-8 rounded-lg text-center uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(59,25,230,0.4)] flex items-center justify-center gap-3 group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-[-4px] transition-transform">map</span>
+                    Return to World Map
+                </a>
+<a class="flex-1 bg-transparent border-2 border-accent-cyan/50 hover:border-accent-cyan text-accent-cyan font-bold py-4 px-8 rounded-lg text-center uppercase tracking-widest transition-all flex items-center justify-center gap-3" href="#">
+                    Next Mission
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</main>
+<!-- Footer Stats Bar -->
+<footer class="bg-black/60 backdrop-blur-md border-t border-primary/20 px-6 py-3 flex items-center justify-between overflow-x-auto whitespace-nowrap">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-400 font-bold uppercase">HP</span>
+<div class="w-32 h-2 bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full w-full bg-gradient-to-r from-green-500 to-emerald-400"></div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-400 font-bold uppercase">MP</span>
+<div class="w-32 h-2 bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full w-4/5 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-xs font-mono text-slate-500 uppercase">Status: <span class="text-accent-cyan">Ready for Battle</span></div>
+<div class="text-xs font-mono text-slate-500 uppercase">Location: <span class="text-accent-purple">Orbit Sector 7</span></div>
+</div>
+</footer>
+</div>
+</body></html>
