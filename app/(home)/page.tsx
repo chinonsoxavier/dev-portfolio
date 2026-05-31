@@ -120,6 +120,11 @@ import Link from "next/link";
 import { BsArrowRight, BsCheckCircle, BsTrophy } from "react-icons/bs";
 import Footer from "@/components/layout/footer";
 import Layout from "@/components/layout/layout";
+import { projects } from "@/lib/project-data";
+import { Globe } from "lucide-react";
+import Image from "next/image";
+import ProjectCard from "@/components/project_card";
+import ProjectCardSlider from "@/components/shared/project_card_slider";
 
 // Mock data for projects
 const mockProjects = [
@@ -254,7 +259,7 @@ export default function Home() {
                 Crafting immersive web experiences with a touch of modern
                 aesthetics. Specialized in building scalable applications with
                 React, Tailwind, and Node.js. Let`s build something
-                <span className="text-primary" > extraordinary</span> together.
+                <span className="text-primary"> extraordinary</span> together.
               </p>
             </div>
 
@@ -401,61 +406,30 @@ export default function Home() {
             ))}
           </div>
         </section>
-
         {/* Recent Projects */}
-        <section className="md:py-16 py-10 max-width">
-          <div className="flex justify-between flex-wrap items-center mb-12">
+        <section className="md:py-20 py-12 max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <h2 className="text-4xl font-display font-bold text-white mb-4">
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-3">
                 Recent Success Stories
               </h2>
-              <p className="text-muted text-lg">
-                Discover how we`ve helped businesses achieve their goals
+              <p className="text-muted text-lg max-w-md">
+                Real projects. Real results. See how we’ve helped businesses
+                grow.
               </p>
             </div>
             <Link
               href="/projects"
-              className="flex items-center gap-2 text-primary hover:text-primary-light font-bold transition-colors"
+              className="flex items-center gap-2 text-primary hover:text-primary-light font-medium transition-colors group"
             >
-              <span className="whitespace-nowrap mt-4 md:mt-0">
-                View All Projects
-              </span>
-              <BsArrowRight />
+              View All Projects
+              <BsArrowRight className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {mockProjects.map((post) => (
-              <div
-                key={post._id}
-                className="group relative bg-[#1e1a32] rounded-xl overflow-hidden border border-border-dark transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="relative h-48 w-full overflow-hidden">
-                  <div className="absolute inset-0 bg-linear-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
-                  {/* Using placeholder image or linear */}
-                  <div className="w-full h-full bg-linear-to-br from-primary/20 to-anime-cyan/20 group-hover:scale-110 transition-transform duration-500"></div>
-                  <div className="absolute top-3 right-3 z-20">
-                    <span className="px-2 py-1 rounded text-xs font-bold bg-green-600 text-white backdrop-blur-sm">
-                      +200 ROI
-                      {/* +{Math.floor(Math.random() * 200 + 100)}% ROI */}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-display font-bold text-white mb-2 group-hover:text-primary-light transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-muted text-sm mb-4">
-                    {post.shortDescription}
-                  </p>
-                  <Link
-                    href={`/projects/${post.slug.current}`}
-                    className="flex items-center gap-2 text-primary hover:text-primary-light font-bold text-sm transition-colors"
-                  >
-                    <span>Read Case Study</span>
-                    <BsArrowRight className="text-xs" />
-                  </Link>
-                </div>
-              </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {projects.map((project) => (
+              <ProjectCardSlider key={project.name} project={project} />
             ))}
           </div>
         </section>

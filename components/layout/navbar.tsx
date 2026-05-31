@@ -1,4 +1,3 @@
-// components/layout/navbar.tsx
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -89,11 +88,9 @@ export default function Navbar() {
     }, 150);
   };
 
-  const isActive = (path: string) => {
-    if (typeof window === "undefined") return false;
-    return pathname === path;
-  };
-
+   const isActive = (path: string) => {
+     return pathname === path;
+   };
   const isServiceActive = services.some((s) => pathname === s.href);
 
   return (
