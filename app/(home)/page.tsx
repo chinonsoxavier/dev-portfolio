@@ -120,42 +120,9 @@ import Link from "next/link";
 import { BsArrowRight, BsCheckCircle, BsTrophy } from "react-icons/bs";
 import Footer from "@/components/layout/footer";
 import Layout from "@/components/layout/layout";
-import { projects } from "@/lib/project-data";
-import { Globe } from "lucide-react";
-import Image from "next/image";
-import ProjectCard from "@/components/project_card";
+import { allProjects } from "@/lib/project-data";
 import ProjectCardSlider from "@/components/shared/project_card_slider";
 
-// Mock data for projects
-const mockProjects = [
-  {
-    _id: "1",
-    title: "E-Commerce Platform Transformation",
-    slug: { current: "ecommerce-transformation" },
-    shortDescription:
-      "Increased online sales by 180% through strategic digital redesign and optimization.",
-    titleImage: "/images/projects/ecommerce.jpg",
-    tags: ["E-Commerce", "Revenue Growth", "Digital Strategy"],
-  },
-  {
-    _id: "2",
-    title: "Healthcare Patient Portal",
-    slug: { current: "healthcare-portal" },
-    shortDescription:
-      "Streamlined patient management resulting in 60% reduction in administrative costs.",
-    titleImage: "/images/projects/healthcare.jpg",
-    tags: ["Healthcare", "Process Automation", "Cost Reduction"],
-  },
-  {
-    _id: "3",
-    title: "Financial Services Dashboard",
-    slug: { current: "financial-dashboard" },
-    shortDescription:
-      "Real-time analytics platform enabling 45% faster decision-making for investment teams.",
-    titleImage: "/images/projects/finance.jpg",
-    tags: ["Finance", "Business Intelligence", "Analytics"],
-  },
-];
 
 export default function Home() {
   const clientResults = [
@@ -294,7 +261,7 @@ export default function Home() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <Link
-                href="/contact"
+                href="/contact-me"
                 className="group relative flex items-center gap-3 h-16 px-8 rounded-2xl bg-linear-to-r from-primary to-primary-light text-white text-base font-bold hover:shadow-[0_0_40px_rgba(59,25,230,0.6)] transition-all duration-300 overflow-hidden"
               >
                 {/* <button className="group relative flex items-center gap-3 h-16 px-8 rounded-2xl bg-linear-to-r from-primary to-primary-light text-white text-base font-bold hover:shadow-[0_0_40px_rgba(59,25,230,0.6)] transition-all duration-300 overflow-hidden"> */}
@@ -428,7 +395,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {projects.map((project) => (
+            {allProjects.slice(0,3).map((project) => (
               <ProjectCardSlider key={project.name} project={project} />
             ))}
           </div>
@@ -441,11 +408,13 @@ export default function Home() {
               Ready to Grow Your Business?
             </h2>
             <p className="text-muted text-lg mb-8 max-w-2xl mx-auto">
-              Join 50+ businesses that have transformed their operations and
+              Join 20+ businesses that have transformed their operations and
               achieved remarkable growth with our strategic solutions.
             </p>
-            <button className="h-14 px-10 rounded-full bg-primary text-white text-base font-bold hover:bg-primary/90 transition-all shadow-[0_0_30px_rgba(59,25,230,0.4)]">
+            <button className="h-14 px-10 cursor-pointer rounded-full bg-primary text-white text-base font-bold hover:bg-primary/90 transition-all shadow-[0_0_30px_rgba(59,25,230,0.4)]">
+            <Link href="/contact-me" className="flex items-center gap-2">
               Start Your Transformation
+              </Link>
             </button>
           </div>
         </section>

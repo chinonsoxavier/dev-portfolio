@@ -30,8 +30,8 @@ export default function TermsOfService() {
               </h2>
               <p className="text-muted leading-relaxed">
                 These Terms of Service (Terms) govern the professional
-                relationship between Bytenux Studio (we, us, or
-                our) and our clients (you or you). By engaging our
+                relationship between Chinonso Xavier (we, us, or
+                i) and our clients (you or we). By engaging our
                 services, you agree to be bound by these Terms and any
                 referenced policies.
               </p>
@@ -260,7 +260,8 @@ export default function TermsOfService() {
               </h2>
               <div className="bg-surface-dark rounded-lg p-4">
                 <p className="text-white mb-2">
-                  <strong>Legal Department:</strong> legal@bytenuxstudio.com
+                  {/* <strong>Legal Department:</strong> legal@bytenuxstudio.com */}
+                  <strong>Legal Department:</strong> chinonsoxavier26@gmail.com
                 </p>
                 <p className="text-white mb-2">
                   <strong>Phone:</strong> +234 707-577-1115

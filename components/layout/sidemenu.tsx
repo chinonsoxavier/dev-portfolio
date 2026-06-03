@@ -49,8 +49,8 @@ const menuItems: MenuItem[] = [
     description: "Our company",
   },
   {
-    title: "Contact",
-    href: "/contact",
+    title: "Contact Me",
+    href: "/contact-me",
     icon: BsEnvelope,
     description: "Get in touch",
   },

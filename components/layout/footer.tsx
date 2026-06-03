@@ -59,7 +59,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-2xl font-display font-bold text-white mb-4">
               {/* Bytenux Studio */}
-               Chinonso Xavier
+              Chinonso Xavier
             </h3>
             <p className="text-muted mb-6 max-w-md">
               Your strategic partner in digital transformation. We deliver
@@ -68,19 +68,19 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href=""
+                href="https://www.linkedin.com/in/chinonso-xavier/"
                 className="w-10 h-10 rounded-lg bg-[#1e1a32] border border-border-dark flex items-center justify-center text-muted hover:text-white hover:border-primary hover:bg-primary/10 transition-all"
               >
                 <BsLinkedin className="text-xl" />
               </a>
               <a
-                href="#"
+                href="https://www.x.com/chinonso-xavier/"
                 className="w-10 h-10 rounded-lg bg-[#1e1a32] border border-border-dark flex items-center justify-center text-muted hover:text-white hover:border-primary hover:bg-primary/10 transition-all"
               >
                 <BsTwitter className="text-xl" />
               </a>
               <a
-                href="#"
+                href="https://mail.google.com/"
                 className="w-10 h-10 rounded-lg bg-[#1e1a32] border border-border-dark flex items-center justify-center text-muted hover:text-white hover:border-primary hover:bg-primary/10 transition-all"
               >
                 <BsEnvelope className="text-xl" />
@@ -93,7 +93,7 @@ const Footer = () => {
             <h4 className="text-white font-bold mb-4">Business Solutions</h4>
             <div className="space-y-3">
               {services.map((data, index) => (
-                <Link href={data.href} key={index} >
+                <Link href={data.href} key={index}>
                   <p className="text-muted my-1 hover:text-white text-sm transition-colors">
                     {data.title}
                   </p>
@@ -126,7 +126,12 @@ const Footer = () => {
               </div>
             </div>
             <button className="mt-4 w-full h-10 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
-              Schedule Consultation
+              <Link
+                href="/contact-me"
+                className="flex items-center justify-center gap-2"
+              >
+                Schedule Consultation
+              </Link>
             </button>
           </div>
         </div>

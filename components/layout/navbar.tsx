@@ -272,7 +272,7 @@ export default function Navbar() {
               About
             </Link>
             <Link
-              href="/contact"
+              href="/contact-me"
               className={`text-sm font-medium transition-colors ${
                 isActive("/contact")
                   ? "text-primary"

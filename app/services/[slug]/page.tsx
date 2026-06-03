@@ -44,7 +44,7 @@ export default async function ServicePage({
               {service.heroSubtext}
             </p>
             <Link
-              href="/contact"
+              href="/contact-me"
               className="group relative inline-flex items-center gap-3 h-14 px-8 rounded-xl bg-primary text-white text-base font-bold hover:shadow-[0_0_30px_rgba(59,25,230,0.6)] transition-all duration-300"
             >
               Get a Free Quote
@@ -157,7 +157,7 @@ export default async function ServicePage({
                     transform your business.
                   </p>
                   <Link
-                    href="/contact"
+                    href="/contact-me"
                     className="w-full flex items-center justify-center gap-2 h-12 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-all shadow-[0_0_20px_rgba(59,25,230,0.3)]"
                   >
                     Schedule Call <BsArrowRight />

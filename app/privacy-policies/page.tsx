@@ -183,14 +183,13 @@ export default function PrivacyPolicy() {
               </p>
               <div className="bg-surface-dark rounded-lg p-4">
                 <p className="text-white mb-2">
-                  <strong>Email:</strong> privacy@chinonso.dev
+                  <strong>Email:</strong> chinonsoxavier26@gmail.com
                 </p>
                 <p className="text-white mb-2">
-                  <strong>Phone:</strong> +1 (555) 123-4567
+                  <strong>Phone:</strong> +234 916-894-5115
                 </p>
                 <p className="text-white">
-                  <strong>Address:</strong> 123 Business Ave, Suite 100, New
-                  York, NY 10001
+                  <strong>Address:</strong> 78 Adekeye Street, Lagos 10001
                 </p>
               </div>
             </section>
