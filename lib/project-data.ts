@@ -141,11 +141,29 @@ export const allProjects = [
       "Dashboard Development",
       "API Integration",
     ],
-    link: "http://seamailer.app/",
+    link: "http://semailer.app/",
     image: [semailer],
     featured: true,
   },
-{
+  {
+    name: "Pdf Plug",
+    category: "SaaS", // Changed from "Productivity SaaS"
+    role: "Frontend Developer",
+    duration: "6 Weeks",
+    description:
+      "Built an online document management and PDF utility platform that allows users to process, manage, and interact with PDF documents through a streamlined web interface.",
+    tools: [
+      "React",
+      "JavaScript",
+      "Tailwind CSS",
+      "API Integration",
+      "Responsive Design",
+    ],
+    link: "https://pdfplug.com",
+    image: [pdfplug],
+  },
+
+  {
     name: "Noja360",
     category: "SaaS", // Changed from "Business Management SaaS"
     role: "Full Stack Developer",
@@ -168,25 +186,6 @@ export const allProjects = [
     featured: true,
   },
 
-  {
-    name: "Pdf Plug",
-    category: "SaaS", // Changed from "Productivity SaaS"
-    role: "Frontend Developer",
-    duration: "6 Weeks",
-    description:
-      "Built an online document management and PDF utility platform that allows users to process, manage, and interact with PDF documents through a streamlined web interface.",
-    tools: [
-      "React",
-      "JavaScript",
-      "Tailwind CSS",
-      "API Integration",
-      "Responsive Design",
-    ],
-    link: "https://pdfplug.com",
-    image: [pdfplug],
-  },
-
-  
   {
     name: "Evara",
     category: "Business", // Changed from "Business Platform"
