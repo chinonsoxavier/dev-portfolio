@@ -207,23 +207,23 @@ export const allProjects = [
     featured: true,
   },
 
-  {
-    name: "CorrectBitNG",
-    category: "Fintech",
-    role: "Frontend Developer",
-    duration: "5 Weeks",
-    description:
-      "Developed a modern fintech platform focused on delivering secure digital financial services through an intuitive and mobile-friendly user experience.",
-    tools: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Responsive Design",
-      "Authentication",
-    ],
-    link: "https://correctbitng.vercel.app/",
-    image: [correctbitng],
-  },
+  // {
+  //   name: "CorrectBitNG",
+  //   category: "Fintech",
+  //   role: "Frontend Developer",
+  //   duration: "5 Weeks",
+  //   description:
+  //     "Developed a modern fintech platform focused on delivering secure digital financial services through an intuitive and mobile-friendly user experience.",
+  //   tools: [
+  //     "React",
+  //     "Next.js",
+  //     "TypeScript",
+  //     "Responsive Design",
+  //     "Authentication",
+  //   ],
+  //   link: "https://correctbitng.vercel.app/",
+  //   image: [correctbitng],
+  // },
   {
     name: "AAI",
     category: "Creative", // Changed from "Creative Landing Page"
