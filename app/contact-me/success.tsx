@@ -396,7 +396,12 @@
 import Link from "next/link";
 import React from "react";
 
-const Success = () => {
+interface ISuccessProps {
+  email?: string;
+  setSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Success = ({ email,setSubmitted }: ISuccessProps) => {
   return (
     <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen overflow-x-hidden w-max">
       <div className="relative min-h-screen w-full flex flex-col">
@@ -515,7 +520,7 @@ const Success = () => {
 
                 <div className="space-y-5 flex-1">
                   {[
-                    { label: "From", value: "contact@yourdomain.com" },
+                    { label: "From", value: email || ""},
                     {
                       label: "Subject",
                       value: "Project Inquiry - Follow-up Required",
@@ -570,7 +575,7 @@ const Success = () => {
           <div className="mt-12 md:mt-16 flex flex-col sm:flex-row gap-4 sm:gap-6 w-full max-w-md lg:max-w-lg">
             <Link
               href="/"
-              className="flex-1 bg-linear-to-r from-primary to-anime-purple hover:from-primary/90 hover:to-anime-purple/90 text-white font-bold py-4 px-8 rounded-xl text-center uppercase tracking-widest transition-all shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 flex items-center justify-center gap-2.5 group"
+              className="flex-1 bg-linear-to-r from-primary to-anime-purple hover:from-primary/90 hover:to-anime-purple/90 text-white font-bold py-2 px-8 rounded-xl text-center uppercase tracking-widest transition-all shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 flex items-center justify-center gap-2.5 group"
             >
               <span className="material-symbols-outlined group-hover:-translate-x-0.5 transition-transform">
                 home
@@ -579,8 +584,9 @@ const Success = () => {
             </Link>
 
             <Link
+            onClick={handleClick}
               href="/contact-me"
-              className="flex-1 border-2 border-anime-cyan/60 hover:border-anime-cyan text-anime-cyan font-bold py-4 px-8 rounded-xl text-center uppercase tracking-widest transition-all flex items-center justify-center gap-2 group hover:shadow-[0_0_25px_rgba(0,255,255,0.15)]"
+              className="flex-1 border-2 border-anime-cyan/60 hover:border-anime-cyan text-anime-cyan font-bold py-2 px-8 rounded-xl text-center uppercase tracking-widest transition-all flex items-center justify-center gap-2 group hover:shadow-[0_0_25px_rgba(0,255,255,0.15)]"
             >
               Send Another Message
               <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">

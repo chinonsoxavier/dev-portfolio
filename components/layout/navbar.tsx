@@ -104,15 +104,24 @@ export default function Navbar() {
       <div className="max-width h-full w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
+          {/* <Link href="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 rounded-lg bg-linear-to-br from-primary to-anime-cyan flex items-center justify-center group-hover:scale-110 transition-transform">
               <span className="text-white font-bold text-xl">CN</span>
             </div>
             <span className="text-xl font-display font-bold text-white">
               Chinonso Xavier
             </span>
-          </Link>
+          </Link> */}
 
+<Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-white via-slate-200 to-white flex items-center justify-center group-hover:scale-110 transition-transform">
+              <span className="text-black font-bold text-2xl">CX</span>
+            </div>
+            <div>
+              <span className="text-2xl font-display font-semibold text-white tracking-tight">Chinonso Xavier</span>
+              <p className="text-xs text-slate-400 -mt-1">Digital Craftsman</p>
+            </div>
+          </Link>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <Link

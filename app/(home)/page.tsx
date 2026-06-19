@@ -1,3 +1,4 @@
+"use client";
 // // home/page.tsx
 // import Layout from "@/components/layout/layout";
 // import Navbar from "@/components/layout/navbar";
@@ -117,14 +118,50 @@
 
 // app/page.tsx
 import Link from "next/link";
-import { BsArrowRight, BsCheckCircle, BsTrophy } from "react-icons/bs";
+import { motion, AnimatePresence } from "framer-motion";
+import { BsArrowRight, BsCheckCircle } from "react-icons/bs";
 import Footer from "@/components/layout/footer";
 import Layout from "@/components/layout/layout";
 import { allProjects } from "@/lib/project-data";
 import ProjectCardSlider from "@/components/shared/project_card_slider";
-
+import Image from "next/image";
+import { useEffect,useState } from "react";
+import slide1 from "@/public/assets/hero-slider/peterweideman-bedroom-5664223_1920.jpg";
+import slide2 from "@/public/assets/hero-slider/thanh_nguyen_slq-house-exterior-7193745_1920.jpg";
+import slide3 from "@/public/assets/hero-slider/geralt-businessman-3213659_1920.jpg";
 
 export default function Home() {
+const [currentSlide, setCurrentSlide] = useState(0);
+
+const heroSlides = [
+  {
+    image: slide1,
+    title: "Quiet and Deep Stillness",
+    subtitle:
+      "We craft premium digital experiences that bring harmony, elegance, and clarity to your brand.",
+  },
+  {
+    image: slide2,
+    title: "Real Estate & Hospitality",
+    subtitle:
+      "Stunning websites, booking systems, and digital platforms for luxury villas, hotels, and property developers.",
+  },
+  {
+    image: slide3,
+    title: "Premium Digital Solutions",
+    subtitle:
+      "From custom business systems to immersive brand websites — built with precision and sophistication.",
+  },
+];
+
+// Auto-slide
+useEffect(() => {
+  const timer = setInterval(() => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  }, 6500);
+  return () => clearInterval(timer);
+}, []);
+
   const clientResults = [
     { metric: "234%", label: "Average ROI", icon: "📈" },
     { metric: "50+", label: "Projects Delivered", icon: "🎯" },
@@ -171,147 +208,129 @@ export default function Home() {
     <Layout className="flex-1 bg-[red] flex flex-col items-center w-full">
       <div className="w-full flex flex-col gap-10">
         {/* Hero Section */}
-        <section className="relative bg-[re] flex flex-col items-center justify-center text-center py-16 md:py-24 overflow-hidden">
-          {/* Background Elements */}
-          <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-accent-cyan/5"></div>
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-cyan/10 rounded-full blur-3xl"></div>
+        <section className="relative h-full min-h-170 flex items-center justify-center overflow-hidden">
+          <AnimatePresence mode="wait">
+            {heroSlides.map(
+              (slide, index) =>
+                index === currentSlide && (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    className="absolute inset-0"
+                  >
+                    {/* Background Image with Elegant Zoom */}
+                    <motion.div
+                      initial={{ scale: 1.1 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 8, ease: "easeOut" }}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={slide.image}
+                        alt={slide.title}
+                        fill
+                        className="object-cover"
+                        priority={index === 0}
+                      />
+                    </motion.div>
 
-          {/* Content Container */}
-          <div className="relative z-10 max-w-6xl mx-auto px-4">
-            {/* Trust Badge */}
-            <div className="flex items-center justify-center gap-2 mb-8 animate-fade-in">
-              <div className="flex items-center gap-2 px-4 py-1.5 md:py-2 rounded-full bg-secondary/50 backdrop-blur-sm border border-white/10">
-                <span className="material-symbols-outlined text-accent-cyan text-sm">
-                  verified
-                </span>
-                <span className="text-accent-cyan font-display font-semibold text-sm tracking-wide uppercase">
-                  Trusted by 500+ Businesses
-                </span>
-              </div>
-            </div>
+                    {/* Deep Luxury Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/70 to-black/90" />
+                  </motion.div>
+                ),
+            )}
+          </AnimatePresence>
 
-            {/* Main Headline */}
-            <div className="mb-8">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-black leading-tight tracking-tight text-white mb-4">
-                Transform Your
-                <br />
-                <span className="relative">
-                  <span className="text-transparent bg-clip-text bg-linear-to-r from-primary-light via-white to-accent-pink">
-                    Business Today
-                  </span>
-                  <span className="absolute bottom-0 left-0 w-full h-1 bg-linear-to-r from-primary-light to-accent-pink rounded-full opacity-50"></span>
-                </span>
-              </h1>
-            </div>
+          {/* Animated Content Layer */}
+          <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+            <motion.div
+              key={currentSlide}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: "easeOut" }}
+              className="mb-6 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
+            >
+              <span className="text-emerald-400">●</span>
+              <span className="text-sm font-medium tracking-widest uppercase">
+                Premium Digital Craftsmanship
+              </span>
+            </motion.div>
 
-            {/* Subtitle */}
-            <div className="max-w-4xl mx-auto mb-10">
-              {/* <p className="text-lg md:text-xl text-slate-300 leading-7.5 md:leading-relaxed font-light">
-                Strategic digital solutions that deliver
-                <span className="text-accent-cyan font-semibold">
-                  {" "}
-                  measurable results
-                </span>
-                . Partner with industry leaders to unlock your business
-                potential and achieve
-                <span className="text-anime-pink font-semibold">
-                  {" "}
-                  sustainable growth
-                </span>
-                .
-              </p> */}
+            <motion.h1
+              key={`title-${currentSlide}`}
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-tight tracking-tighter text-white mb-6"
+            >
+              {heroSlides[currentSlide].title}
+            </motion.h1>
 
-              <p className="text-lg md:text-xl text-slate-300 leading-7.5 md:leading-relaxed font-light">
-                Crafting immersive web experiences with a touch of modern
-                aesthetics. Specialized in building scalable applications with
-                React, Tailwind, and Node.js. Let`s build something
-                <span className="text-primary"> extraordinary</span> together.
-              </p>
-            </div>
+            <motion.p
+              key={`subtitle-${currentSlide}`}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto mb-10 leading-relaxed"
+            >
+              {heroSlides[currentSlide].subtitle}
+            </motion.p>
 
-            {/* Social Proof Stats */}
-            <div className="hidden grid-cols-3 gap-8 mb-12 max-w-2xl mx-auto">
-              <div className="text-center group">
-                <div className="text-3xl md:text-4xl font-black text-muted mb-1 group-hover:scale-110 transition-transform">
-                  500+
-                </div>
-                <div className="text-sm text-slate-400 uppercase tracking-wider">
-                  Clients
-                </div>
-              </div>
-              <div className="text-center group">
-                <div className="text-3xl md:text-4xl font-black text-anime-purple mb-1 group-hover:scale-110 transition-transform">
-                  98%
-                </div>
-                <div className="text-sm text-slate-400 uppercase tracking-wider">
-                  Success Rate
-                </div>
-              </div>
-              <div className="text-center group">
-                <div className="text-3xl md:text-4xl font-black text-anime-pink mb-1 group-hover:scale-110 transition-transform">
-                  24/7
-                </div>
-                <div className="text-sm text-slate-400 uppercase tracking-wider">
-                  Support
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-              <Link
-                href="/contact-me"
-                className="group relative flex items-center gap-3 h-16 px-8 rounded-2xl bg-linear-to-r from-primary to-primary-light text-white text-base font-bold hover:shadow-[0_0_40px_rgba(59,25,230,0.6)] transition-all duration-300 overflow-hidden"
-              >
-                {/* <button className="group relative flex items-center gap-3 h-16 px-8 rounded-2xl bg-linear-to-r from-primary to-primary-light text-white text-base font-bold hover:shadow-[0_0_40px_rgba(59,25,230,0.6)] transition-all duration-300 overflow-hidden"> */}
-                <span className="absolute inset-0 bg-linear-to-r from-primary-light to-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                <span className="relative flex items-center gap-3">
-                  <span className="material-symbols-outlined">
-                    calendar_month
-                  </span>
-                  Schedule Free Consultation
-                  <BsArrowRight className="text-xl group-hover:translate-x-1 transition-transform" />
-                </span>
-                {/* </button> */}
-              </Link>
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
               <Link
                 href="/projects"
-                className="group relative flex items-center gap-3 h-16 px-8 rounded-2xl border-2 border-white/20 bg-white/5 backdrop-blur-sm text-white text-base font-bold hover:border-primary/50 hover:bg-white/10 transition-all duration-300"
+                className="group flex items-center justify-center gap-3 h-14 px-10 bg-white text-black font-semibold rounded-2xl hover:bg-white/90 transition-all hover:scale-[1.02]"
               >
-                <span className="flex items-center gap-3">
-                  <span className="material-symbols-outlined">
-                    auto_stories
-                  </span>
-                  View Success Stories
-                  <BsTrophy className="text-xl group-hover:rotate-12 transition-transform" />
-                </span>
+                View My Work
+                <BsArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
-            </div>
 
-            {/* Additional Trust Elements */}
-            <div className="hidden items-center justify-center gap-8 text-sm text-slate-400">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-accent-cyan">
-                  lock
-                </span>
-                <span>No Credit Card Required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-accent-cyan">
-                  schedule
-                </span>
-                <span>30-Day Guarantee</span>
-              </div>
-            </div>
+              <Link
+                href="/contact-me"
+                className="group flex items-center justify-center gap-3 h-14 px-10 border-2 border-white/70 text-white font-semibold rounded-2xl hover:bg-white/10 backdrop-blur-sm transition-all"
+              >
+                Book a Consultation
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Premium Progress Dots */}
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-20">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`relative w-12 h-1 bg-white/30 rounded-full overflow-hidden transition-all hover:bg-white/50 ${
+                  index === currentSlide ? "scale-110" : ""
+                }`}
+              >
+                <motion.div
+                  className="absolute top-0 left-0 h-full bg-white"
+                  initial={{ width: 0 }}
+                  animate={{ width: index === currentSlide ? "100%" : "0%" }}
+                  transition={{ duration: 6.5, ease: "linear" }}
+                />
+              </button>
+            ))}
           </div>
 
           {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <span className="material-symbols-outlined text-slate-500 text-2xl">
-              keyboard_arrow_down
-            </span>
-          </div>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 flex flex-col items-center gap-1"
+          >
+            Scroll to explore
+            <BsArrowRight className="rotate-90 text-xl" />
+          </motion.div>
         </section>
         {/* Results Section */}
         <section className="md:py-16 py-10 max-width">
@@ -395,7 +414,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {allProjects.slice(0,3).map((project) => (
+            {allProjects.slice(0, 3).map((project) => (
               <ProjectCardSlider key={project.name} project={project} />
             ))}
           </div>
@@ -412,8 +431,8 @@ export default function Home() {
               achieved remarkable growth with our strategic solutions.
             </p>
             <button className="h-14 px-10 cursor-pointer rounded-full bg-primary text-white text-base font-bold hover:bg-primary/90 transition-all shadow-[0_0_30px_rgba(59,25,230,0.4)]">
-            <Link href="/contact-me" className="flex items-center gap-2">
-              Start Your Transformation
+              <Link href="/contact-me" className="flex items-center gap-2">
+                Start Your Transformation
               </Link>
             </button>
           </div>

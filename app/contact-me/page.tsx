@@ -231,19 +231,58 @@
 // };
 
 // export default Page;
-
 // contact-me/page.tsx
 import Footer from "@/components/layout/footer";
 import Layout from "@/components/layout/layout";
 import React from "react";
-import { BsSend, BsClock, BsCheckCircle } from "react-icons/bs";
+import { BsSend, BsWhatsapp } from "react-icons/bs";
 import Success from "./success";
 
 const Page = () => {
   const [submitted, setSubmitted] = React.useState(false);
 
+  // Form State
+  const [formData, setFormData] = React.useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    projectType: "",
+    projectDescription: "",
+  });
+
+  const whatsappNumber = "+2349168945115";
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const buildWhatsAppMessage = () => {
+    return `
+Hi Chinonso,
+I'm interested in working with you.
+ Name: ${formData.firstName} ${formData.lastName}
+ Email: ${formData.email}
+ Phone: ${formData.phone || "Not provided"}
+ Project Type: ${formData.projectType || "Not specified"}
+ Project Description: ${formData.projectDescription}
+
+Looking forward to your response.
+    `.trim();
+  };
+
+  const whatsappLink = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${encodeURIComponent(buildWhatsAppMessage())}`;
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Open WhatsApp with all form data
+    window.open(whatsappLink, "_blank");
+    
+    // Show success message
     setSubmitted(true);
   };
 
@@ -252,14 +291,6 @@ const Page = () => {
       <div className="w-full max-width flex flex-col gap-10">
         {/* Header */}
         <div className="flex pt-10 flex-col gap-6 border-b pb-8">
-          <div className="hidden items-center gap-2 mb-2">
-            <span className="material-symbols-outlined text-white">
-              contact_mail
-            </span>
-            <span className="text-white font-display font-bold text-sm tracking-widest uppercase">
-              Get In Touch
-            </span>
-          </div>
           <h1 className="text-4xl md:text-5xl font-display font-black leading-tight tracking-tight text-white">
             Let`s Build Your
             <br />
@@ -268,9 +299,8 @@ const Page = () => {
             </span>
           </h1>
           <p className="text-muted text-lg max-w-3xl">
-            Ready to take your business to the next level? Our team is here to
-            help you navigate your digital transformation journey. Reach out
-            today for a complimentary business consultation.
+            Ready to take your business to the next level? Message me directly
+            on WhatsApp or fill out the form below.
           </p>
         </div>
 
@@ -285,6 +315,22 @@ const Page = () => {
                   <h2 className="text-2xl font-display font-bold text-white mb-6">
                     Schedule Your Consultation
                   </h2>
+
+                  {/* Prominent WhatsApp Button */}
+                  <a
+                    href={whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mb-8 flex items-center justify-center gap-3 w-full h-14 bg-[#25D366] hover:bg-[#20ba5c] text-black font-semibold rounded-2xl transition-all text-lg shadow-sm shadow-[#25D366]/30"
+                  >
+                    <BsWhatsapp className="text-3xl" />
+                    Chat with Me on WhatsApp (Fastest)
+                  </a>
+
+                  <div className="text-center text-sm text-muted mb-8">
+                    — OR FILL THE FORM BELOW —
+                  </div>
+
                   <form onSubmit={onSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
@@ -293,6 +339,9 @@ const Page = () => {
                         </label>
                         <input
                           type="text"
+                          name="firstName"
+                          value={formData.firstName}
+                          onChange={handleChange}
                           className="w-full h-10 px-4 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-muted focus:border-primary focus:outline-none transition-colors"
                           placeholder="John"
                           required
@@ -304,6 +353,9 @@ const Page = () => {
                         </label>
                         <input
                           type="text"
+                          name="lastName"
+                          value={formData.lastName}
+                          onChange={handleChange}
                           className="w-full h-10 px-4 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-muted focus:border-primary focus:outline-none transition-colors"
                           placeholder="Doe"
                           required
@@ -318,6 +370,9 @@ const Page = () => {
                         </label>
                         <input
                           type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
                           className="w-full h-10 px-4 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-muted focus:border-primary focus:outline-none transition-colors"
                           placeholder="john@company.com"
                           required
@@ -325,83 +380,47 @@ const Page = () => {
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-white mb-2">
-                          Project Name
+                          Phone Number
                         </label>
                         <input
-                          type="text"
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
                           className="w-full h-10 px-4 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-muted focus:border-primary focus:outline-none transition-colors"
-                          placeholder="Acme Corporation"
+                          placeholder="+234 916 894 5115"
                         />
                       </div>
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-white mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        className="w-full h-10 px-4 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-muted focus:border-primary focus:outline-none transition-colors"
-                        placeholder="+1 (555) 123-4567"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-white mb-2">
                         Project Type *
                       </label>
-                      <select className="w-full h-10 px-4 rounded-lg bg-surface-dark border border-border-dark text-white focus:border-primary focus:outline-none transition-colors">
+                      <select
+                        name="projectType"
+                        value={formData.projectType}
+                        onChange={handleChange}
+                        className="w-full h-10 px-4 rounded-lg bg-surface-dark border border-border-dark text-white focus:border-primary focus:outline-none transition-colors"
+                        required
+                      >
                         <option className="text-black" value="">
                           Select a service
                         </option>
-                        <option className="text-black" value="strategy">
-                          Digital Strategy
+                        <option className="text-black" value="real-estate">
+                          Real Estate / Hospitality
                         </option>
                         <option className="text-black" value="strategy">
                           Digital Strategy
                         </option>
                         <option className="text-black" value="ecommerce">
-                          E-Commerce Solution
-                        </option>
-                        <option className="text-black" value="analytics">
-                          Business Intelligence
+                          E-Commerce
                         </option>
                         <option className="text-black" value="automation">
                           Process Automation
                         </option>
-                        <option className="text-black" value="consulting">
-                          General Consulting
-                        </option>
                         <option className="text-black" value="other">
                           Other
-                        </option>
-                      </select>
-                    </div>
-
-                    <div className="hidden">
-                      <label className="block text-sm font-medium text-white mb-2">
-                        Project Budget
-                      </label>
-                      <select className="w-full h-10 px-4 rounded-lg bg-surface-dark border border-border-dark text-white focus:border-primary focus:outline-none transition-colors">
-                        <option value="">Select budget range</option>
-                        <option className="text-black" value="100-1K">
-                          {" "}
-                          {"<"} $1,000 ( {"<" + "₦1M"} )
-                        </option>
-                        <option className="text-black" value="1K-10k">
-                          $1,000 - $20,000 ({"₦1M" + "-" + "₦10M"})
-                        </option>
-                        <option className="text-black" value="20k-50k">
-                          $20,000 - $50,000 ( {"₦10M" + "-" + "₦25M"} )
-                        </option>
-                        <option className="text-black" value="50K+">
-                          $50,000+ ( {"₦25M+"} )
-                        </option>
-                        <option className="text-black" value="not-specified">
-                          Not Specified
-                        </option>
-                        <option className="text-black" value="not-specified">
-                          Let`s talk first
                         </option>
                       </select>
                     </div>
@@ -411,105 +430,82 @@ const Page = () => {
                         Tell me about your project *
                       </label>
                       <textarea
+                        name="projectDescription"
+                        value={formData.projectDescription}
+                        onChange={handleChange}
                         rows={4}
                         className="w-full px-4 py-3 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-muted focus:border-primary focus:outline-none transition-colors resize-none"
-                        placeholder="Describe your business objectives and challenges..."
+                        placeholder="Describe your business objectives..."
                         required
                       ></textarea>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        id="newsletter"
-                        className="w-4 h-4 rounded border-border-dark bg-surface-dark text-primary focus:ring-primary focus:ring-offset-0"
-                      />
-                      <label
-                        htmlFor="newsletter"
-                        className="text-sm text-muted"
-                      >
-                        I`d like to receive business insights and updates
-                      </label>
-                    </div>
-
                     <button
-                    
                       type="submit"
-                      className="w-full cursor-pointer h-12 rounded-lg bg-primary text-white text-base font-bold hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 group"
+                      className="w-full h-12 rounded-lg bg-primary text-white text-base font-bold hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 group"
                     >
-                      <span>Schedule Consultation</span>
+                      <span>Send Message & Open WhatsApp</span>
                       <BsSend className="text-xl group-hover:translate-x-1 transition-transform" />
                     </button>
                   </form>
                 </div>
               </div>
 
-              {/* Contact Information */}
+              {/* Contact Information - Same as before */}
               <div className="space-y-6">
+                {/* ... your existing contact sidebar ... */}
                 <div className="bg-[#1e1a32] rounded-xl p-6 border border-border-dark">
                   <h3 className="text-xl font-display font-bold text-white mb-4">
                     Direct Contact
                   </h3>
                   <div className="space-y-4">
                     <div>
-                      <p className="text-sm text-muted mb-1">
-                        Business Inquiries
-                      </p>
+                      <p className="text-sm text-muted mb-1">Email</p>
                       <p className="text-white font-medium">
                         chinonsoxavier26@gmail.com
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted mb-1">Phone</p>
-                      <p className="text-white font-medium">
-                        +234 916-894-5115
+                      <p className="text-sm text-muted mb-1">
+                        WhatsApp (Recommended)
                       </p>
+                      <a
+                        href={`https://wa.me/${whatsappNumber.replace("+", "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white font-medium hover:text-[#25D366] transition-colors flex items-center gap-2"
+                      >
+                        <BsWhatsapp /> +234 916 894 5115
+                      </a>
                     </div>
                     <div>
                       <p className="text-sm text-muted mb-1">Response Time</p>
-                      <p className="text-white font-medium">Within 24 hours</p>
+                      <p className="text-white font-medium">
+                        Usually within 1-2 hours on WhatsApp
+                      </p>
                     </div>
                   </div>
                 </div>
-
-                <div className="bg-linear-to-r from-primary/20 to-anime-cyan/20 rounded-xl p-6 border border-primary/30">
-                  <div className="flex items-center gap-3 mb-3">
-                    <BsClock className="text-2xl text-white" />
-                    <h3 className="text-xl font-display font-bold text-white">
-                      Quick Response
+                <div className="bg-gradient-to-br from-[#25D366]/10 to-emerald-900/30 border border-[#25D366]/30 rounded-2xl p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <BsWhatsapp className="text-4xl text-[#25D366]" />
+                    <h3 className="text-2xl font-display font-bold text-white">
+                      Fastest Way to Reach Me
                     </h3>
                   </div>
-                  <p className="text-muted text-sm mb-4">
-                    I understand that in business, timing is everything. That`s
-                    why i guarantee a response within one business day.
+                  <p className="text-slate-300 mb-5">
+                    Click below to start a conversation instantly on WhatsApp.
                   </p>
-                  <div className="flex items-center gap-2">
-                    <BsCheckCircle className="text-green-400" />
-                    <span className="text-white text-sm">
-                      98% response rate
-                    </span>
-                  </div>
+                  <a
+                    href={whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-center py-4 bg-[#25D366] hover:bg-[#20ba5c] text-black font-semibold rounded-2xl transition-all"
+                  >
+                    Message Me on WhatsApp →
+                  </a>
                 </div>
-
-                <div className="bg-[#1e1a32] hidden rounded-xl p-6 border border-border-dark">
-                  <h3 className="text-xl font-display font-bold text-white mb-4">
-                    Office Locations
-                  </h3>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-white font-medium">North America</p>
-                      <p className="text-sm text-muted">New York, Toronto</p>
-                    </div>
-                    <div>
-                      <p className="text-white font-medium">Europe</p>
-                      <p className="text-sm text-muted">London, Amsterdam</p>
-                    </div>
-                    <div>
-                      <p className="text-white font-medium">Asia Pacific</p>
-                      <p className="text-sm text-muted">Singapore, Sydney</p>
-                    </div>
-                  </div>
-                </div>
+                ;
               </div>
             </>
           )}
@@ -546,9 +542,9 @@ const Page = () => {
                 What industries do you specialize in?
               </h3>
               <p className="text-muted text-sm">
-                i have extensive experience across retail, healthcare,sales, finance,
-                education, and professional services, delivering tailored
-                solutions for each sector.
+                i have extensive experience across retail, healthcare,sales,
+                finance, education, and professional services, delivering
+                tailored solutions for each sector.
               </p>
             </div>
             <div className="bg-[#1e1a32] rounded-lg p-6 border border-border-dark">
@@ -571,3 +567,7 @@ const Page = () => {
 };
 
 export default Page;
+        
+
+
+
