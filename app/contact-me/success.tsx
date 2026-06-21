@@ -402,6 +402,12 @@ interface ISuccessProps {
 }
 
 const Success = ({ email,setSubmitted }: ISuccessProps) => {
+
+
+const handleClick =()=> {
+  setSubmitted(false);
+}
+
   return (
     <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen overflow-x-hidden w-max">
       <div className="relative min-h-screen w-full flex flex-col">
