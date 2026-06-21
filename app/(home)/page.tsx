@@ -326,7 +326,7 @@ useEffect(() => {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 flex flex-col items-center gap-1"
+            className="absolute hidden bottom-8 left-1/2 -translate-x-1/2 text-white/60 flex flex-col items-center gap-1"
           >
             Scroll to explore
             <BsArrowRight className="rotate-90 text-xl" />
