@@ -307,7 +307,7 @@ Looking forward to your response.
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Form */}
           {submitted ? (
-            <Success />
+            <Success email={formData.email} setSubmitted={setSubmitted} />
           ) : (
             <>
               <div className="lg:col-span-2">

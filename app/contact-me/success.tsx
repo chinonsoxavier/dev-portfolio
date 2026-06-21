@@ -397,7 +397,7 @@ import Link from "next/link";
 import React from "react";
 
 interface ISuccessProps {
-  email?: string;
+  email: string;
   setSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
