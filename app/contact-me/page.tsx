@@ -321,10 +321,10 @@ Looking forward to your response.
                     href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mb-8 flex items-center justify-center gap-3 w-full h-14 bg-[#25D366] hover:bg-[#20ba5c] text-black font-semibold rounded-2xl transition-all text-lg shadow-sm shadow-[#25D366]/30"
+                    className="mb-8 px-2 flex items-center justify-center gap-3 w-full h-14 bg-[#25D366] hover:bg-[#20ba5c] text-black font-semibold rounded-2xl transition-all text-lg shadow-sm shadow-[#25D366]/30"
                   >
                     <BsWhatsapp className="text-3xl" />
-                    Chat with Me on WhatsApp (Fastest)
+                    Chat with Me on WhatsApp
                   </a>
 
                   <div className="text-center text-sm text-muted mb-8">
