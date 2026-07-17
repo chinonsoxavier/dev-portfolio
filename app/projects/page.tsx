@@ -1,9 +1,10 @@
-// app/projects/page.tsx (or wherever your projects page lives)
 "use client";
 
-import {useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Footer from "@/components/layout/footer";
 import Layout from "@/components/layout/layout";
 import {
@@ -14,53 +15,111 @@ import {
 } from "react-icons/bs";
 import { allProjects, categories } from "@/lib/project-data";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState("All");
-  // const [slide, setSlide] = useState(1);
+  const mainRef = useRef<HTMLDivElement>(null);
 
   const filteredProjects =
     activeFilter === "All"
       ? allProjects
       : allProjects.filter((project) => project.category === activeFilter);
 
+  // ── Initial Scroll Animations ─────────────────
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // --- Header Section ---
+      gsap.fromTo(".proj-header-el", 
+        { y: 40, opacity: 0 }, 
+        { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: "power3.out" }
+      );
 
+      // --- Impact Stats (Heavy Bounce) ---
+      gsap.fromTo(".proj-stat", 
+        { y: 60, opacity: 0, scale: 0.7 }, 
+        {
+          y: 0, opacity: 1, scale: 1, stagger: 0.12, duration: 0.8, ease: "back.out(1.7)",
+          scrollTrigger: { trigger: ".proj-stats-grid", start: "top 85%" }
+        }
+      );
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setSlide((prev) => (prev === 3 ? 1 : prev + 1));
-  //   }, 5000);
+      // --- Testimonial (Slide in from left) ---
+      gsap.fromTo(".proj-testimonial", 
+        { x: -50, opacity: 0 }, 
+        {
+          x: 0, opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".proj-testimonial", start: "top 85%" }
+        }
+      );
 
-  //   return () => clearInterval(interval);
-  // }, []);
+      // --- Bottom CTA (Elastic Pop) ---
+      gsap.fromTo(".proj-bottom-cta", 
+        { y: 40, opacity: 0, scale: 0.9 }, 
+        {
+          y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.4)",
+          scrollTrigger: { trigger: ".proj-bottom-cta", start: "top 90%" }
+        }
+      );
+
+    }, mainRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // ── Filter Change Animation ──────────────────
+  // This triggers every time a user clicks a filter, re-animating the new cards smoothly
+  useEffect(() => {
+    if (!mainRef.current) return;
+    
+    const cards = mainRef.current.querySelectorAll('.proj-card');
+    if (cards.length > 0) {
+      gsap.fromTo(cards, 
+        { y: 30, opacity: 0, scale: 0.95 }, 
+        { 
+          y: 0, opacity: 1, scale: 1, 
+          stagger: 0.05, duration: 0.5, ease: "power3.out" 
+        }
+      );
+    } else {
+      // Animate empty state if no projects match
+      const emptyState = mainRef.current.querySelector('.proj-empty');
+      if (emptyState) {
+        gsap.fromTo(emptyState, 
+          { y: 20, opacity: 0 }, 
+          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }
+        );
+      }
+    }
+  }, [activeFilter]);
 
   return (
     <Layout className="flex-1 flex flex-col items-center w-full">
-      <div className="w-full max-w-7xl mx-auto px-6 flex flex-col gap-10 py-12">
+      <div ref={mainRef} className="w-full max-w-7xl mx-auto px-6 flex flex-col gap-10 py-12">
+        
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border-dark pb-8">
           <div className="flex flex-col gap-2 max-w-2xl">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="material-symbols-outlined text-white">
-                business_center
-              </span>
+            <div className="proj-header-el flex items-center gap-2 mb-2">
+              <span className="material-symbols-outlined text-white">business_center</span>
               <span className="text-white font-display font-bold text-sm tracking-widest uppercase">
                 Client Success Stories
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-black leading-tight tracking-tight text-white">
+            <h1 className="proj-header-el text-4xl md:text-5xl font-display font-black leading-tight tracking-tight text-white">
               Delivering Business
               <br />
               <span className="text-transparent bg-clip-text bg-linear-to-r from-primary-light via-white to-anime-pink">
                 Solutions That Drive Growth
               </span>
             </h1>
-            <p className="text-muted text-lg mt-2 max-w-lg">
+            <p className="proj-header-el text-muted text-lg mt-2 max-w-lg">
               Partnering with businesses to transform their digital presence and
               achieve measurable results. Every project is an opportunity to
               create lasting business value.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="proj-header-el flex gap-3">
             <Link
               href="/contact"
               className="flex items-center gap-2 h-10 px-4 rounded-lg border border-border-dark bg-[#1e1a32] hover:bg-[#25213d] text-white text-sm font-medium transition-colors"
@@ -72,26 +131,24 @@ export default function ProjectsPage() {
         </div>
 
         {/* Business Impact Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-6">
-          <div className="bg-[#1e1a32] rounded-lg p-4 text-center border border-border-dark hover:border-primary/30 transition-colors">
+        <div className="proj-stats-grid grid grid-cols-2 md:grid-cols-4 gap-4 py-6">
+          <div className="proj-stat bg-[#1e1a32] rounded-lg p-4 text-center border border-border-dark hover:border-primary/30 transition-colors will-change-transform">
             <BsGraphUp className="text-3xl text-green-400 mx-auto mb-2" />
             <div className="text-2xl font-bold text-white">234%</div>
             <div className="text-sm text-muted">Average ROI</div>
           </div>
-          <div className="bg-[#1e1a32] rounded-lg p-4 text-center border border-border-dark hover:border-primary/30 transition-colors">
+          <div className="proj-stat bg-[#1e1a32] rounded-lg p-4 text-center border border-border-dark hover:border-primary/30 transition-colors will-change-transform">
             <BsTrophy className="text-3xl text-yellow-400 mx-auto mb-2" />
             <div className="text-2xl font-bold text-white">16+</div>
             <div className="text-sm text-muted">Successful Projects</div>
           </div>
-          <div className="bg-[#1e1a32] rounded-lg p-4 text-center border border-border-dark hover:border-primary/30 transition-colors">
+          <div className="proj-stat bg-[#1e1a32] rounded-lg p-4 text-center border border-border-dark hover:border-primary/30 transition-colors will-change-transform">
             <BsCheckCircle className="text-3xl text-blue-400 mx-auto mb-2" />
             <div className="text-2xl font-bold text-white">98%</div>
             <div className="text-sm text-muted">Client Satisfaction</div>
           </div>
-          <div className="bg-[#1e1a32] rounded-lg p-4 text-center border border-border-dark hover:border-primary/30 transition-colors">
-            <span className="material-symbols-outlined text-3xl text-purple-400 mx-auto mb-2">
-              schedule
-            </span>
+          <div className="proj-stat bg-[#1e1a32] rounded-lg p-4 text-center border border-border-dark hover:border-primary/30 transition-colors will-change-transform">
+            <span className="material-symbols-outlined text-3xl text-purple-400 mx-auto mb-2">schedule</span>
             <div className="text-2xl font-bold text-white">30%</div>
             <div className="text-sm text-muted">Faster Delivery</div>
           </div>
@@ -99,9 +156,7 @@ export default function ProjectsPage() {
 
         {/* Functional Category Filters */}
         <div className="flex flex-wrap gap-3 items-center">
-          <span className="text-muted text-sm font-medium mr-2">
-            Industry Focus:
-          </span>
+          <span className="text-muted text-sm font-medium mr-2">Industry Focus:</span>
           {categories.map((category) => (
             <button
               key={category}
@@ -122,31 +177,20 @@ export default function ProjectsPage() {
           {filteredProjects.map((project) => (
             <article
               key={project.name}
-              className="group relative flex flex-col bg-[#1e1a32] rounded-xl overflow-hidden border border-border-dark transition-all duration-500 ease-out hover:-translate-y-2 hover:border-primary/40 cursor-pointer"
+              className="proj-card group relative flex flex-col bg-[#1e1a32] rounded-xl overflow-hidden border border-border-dark transition-all duration-500 ease-out hover:-translate-y-2 hover:border-primary/40 cursor-pointer will-change-transform"
             >
-              {/* Scanning Beam Effect */}
-              {/* <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <div className="absolute top-0 left-0 w-full h-full bg-linear-to-b from-transparent via-primary/10 to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 ease-in-out" />
-              </div> */}
-
-              {/* Top Edge Glow */}
-              {/* <div className="absolute top-0 left-0 w-full h-[2px] bg-linear-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30" /> */}
-
               {/* Project Image */}
               <div className="relative h-48 w-full overflow-hidden">
                 <div className="absolute inset-0 bg-linear-to-t from-[#1e1a32] via-[#1e1a32]/40 to-transparent opacity-80 z-10"></div>
-
-                {/* Image Container - Zooms on hover */}
                 <div className="h-full w-full group-hover:scale-110 transition-transform duration-700 ease-out">
                   <Image
                     className="w-full object-cover h-full"
                     alt={project.name}
-                    src={project.image[0]} // Uses the first image in the array
+                    src={project.image[0]}
                     width={600}
                     height={400}
                   />
                 </div>
-
                 {project.featured && (
                   <div className="absolute top-3 right-3 z-20">
                     <span className="px-2 py-1 rounded text-xs font-bold bg-primary text-white border border-primary/30 backdrop-blur-sm shadow-[0_0_10px_rgba(59,25,230,0.3)]">
@@ -168,23 +212,18 @@ export default function ProjectsPage() {
                       href={project.link}
                       target="_blank"
                       rel="noreferrer"
-                      onClick={(e) => e.stopPropagation()} // Prevent card click if needed later
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <span className="material-symbols-outlined">
-                        open_in_new
-                      </span>
+                      <span className="material-symbols-outlined">open_in_new</span>
                     </a>
                   )}
                 </div>
 
-                {/* Category & Role Badge */}
                 <div className="flex items-center gap-2">
                   <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-primary/10 text-primary border border-primary/20">
                     {project.category}
                   </span>
-                  <span className="text-[11px] text-slate-500">
-                    {project.role}
-                  </span>
+                  <span className="text-[11px] text-slate-500">{project.role}</span>
                 </div>
 
                 <p className="text-muted text-sm leading-relaxed mb-2 line-clamp-3">
@@ -193,14 +232,11 @@ export default function ProjectsPage() {
 
                 <div className="flex items-center gap-4 text-xs text-muted mb-3">
                   <span className="flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[14px]">
-                      schedule
-                    </span>
+                    <span className="material-symbols-outlined text-[14px]">schedule</span>
                     {project.duration}
                   </span>
                 </div>
 
-                {/* Tech Stack */}
                 <div className="mt-auto flex flex-wrap gap-2">
                   {project.tools.slice(0, 3).map((tool, idx) => (
                     <span
@@ -222,23 +258,16 @@ export default function ProjectsPage() {
 
           {/* Empty State for Filters */}
           {filteredProjects.length === 0 && (
-            <div className="col-span-1 md:col-span-2 lg:col-span-3 py-20 text-center">
-              <span className="material-symbols-outlined text-5xl text-slate-700 mb-4 block">
-                folder_off
-              </span>
-              <h3 className="text-xl font-bold text-white mb-2">
-                No Projects Found
-              </h3>
-              <p className="text-muted">
-                There are no projects in this category yet.
-              </p>
+            <div className="proj-empty col-span-1 md:col-span-2 lg:col-span-3 py-20 text-center will-change-transform">
+              <span className="material-symbols-outlined text-5xl text-slate-700 mb-4 block">folder_off</span>
+              <h3 className="text-xl font-bold text-white mb-2">No Projects Found</h3>
+              <p className="text-muted">There are no projects in this category yet.</p>
             </div>
           )}
         </div>
 
         {/* Client Testimonial Section */}
-
-        <div>
+        <div className="proj-testimonial will-change-transform">
           <div className="bg-linear-to-r from-[#1e1a32] to-[#25213d] rounded-xl p-8 border border-border-dark mt-8 hover:border-primary/20 transition-colors">
             <div className="flex items-start gap-4">
               <div className="shrink-0">
@@ -249,15 +278,11 @@ export default function ProjectsPage() {
               <div className="grow">
                 <div className="flex items-center gap-2 mb-2">
                   <h4 className="text-white font-bold">Maxwell Kelechi</h4>
-                  <span className="text-xs text-muted bg-primary/20 px-2 py-1 rounded">
-                    CEO, RetailCorp
-                  </span>
+                  <span className="text-xs text-muted bg-primary/20 px-2 py-1 rounded">CEO, RetailCorp</span>
                 </div>
                 <div className="flex gap-1 mb-3">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-400">
-                      ★
-                    </span>
+                    <span key={i} className="text-yellow-400">★</span>
                   ))}
                 </div>
                 <p className="text-muted italic">
@@ -269,10 +294,9 @@ export default function ProjectsPage() {
               </div>
             </div>
           </div>
-
         </div>
 
-        <div className="flex justify-center mt-8">
+        <div className="proj-bottom-cta flex justify-center mt-8 will-change-transform">
           <Link
             href="/contact"
             className="flex items-center gap-2 h-12 px-8 rounded-lg border-2 border-primary bg-transparent hover:bg-primary/10 text-primary hover:text-primary-light text-base font-bold font-display tracking-wider transition-all uppercase"
