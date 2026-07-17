@@ -11,7 +11,7 @@ import Link from "next/link";
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 // ═══════════════════════════════════════════════════════════
-// SHADERS (Unchanged)
+// SHADERS
 // ═══════════════════════════════════════════════════════════
 
 const VERTEX_SHADER = /* glsl */ `
@@ -76,7 +76,7 @@ interface DecayMesh {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 3D MESH FACTORY (Unchanged)
+// 3D MESH FACTORY
 // ═══════════════════════════════════════════════════════════
 
 function createDecayMesh(
@@ -163,17 +163,14 @@ function createDecayMesh(
 }
 
 // ═══════════════════════════════════════════════════════════
-// SLIDE CONTENT — Pure GSAP Bouncing Text (FULLY FIXED)
+// SLIDE CONTENT — Pure GSAP Bouncing Text
 // ═══════════════════════════════════════════════════════════
 
 function SlideContent({ slide }: { slide: SlideData }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // 1. BLOCK PAINT: Hide instantly before the browser paints the new text
   useIsomorphicLayoutEffect(() => {
     if (!ref.current) return;
-    
-    // Scoping to ref ensures we only hide elements inside THIS specific slide
     const ctx = gsap.context(() => {
       gsap.set(ref.current, { opacity: 0, y: 30 });
       gsap.set(".slide-badge", { opacity: 0, y: 20, scale: 0.8 });
@@ -181,42 +178,19 @@ function SlideContent({ slide }: { slide: SlideData }) {
       gsap.set(".slide-word", { opacity: 0, y: 40 });
       gsap.set(".slide-cta", { opacity: 0, y: 30, scale: 0.5 });
     }, ref);
-
     return () => ctx.revert();
   }, [slide]);
 
-  // 2. ANIMATE: Trigger the bounce-in safely
   useEffect(() => {
     if (!ref.current) return;
-    
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      // CRITICAL FIX: Animate the wrapper back to visible first!
       tl.to(ref.current, { opacity: 1, y: 0, duration: 0.1 });
-
-      tl.to(".slide-badge", {
-        opacity: 1, y: 0, scale: 1,
-        duration: 0.6, ease: "back.out(1.7)"
-      }, "-=0.05");
-
-      tl.to(".slide-char", {
-        opacity: 1, y: 0, scale: 1, rotate: 0,
-        stagger: 0.025, duration: 0.7, ease: "back.out(1.7)"
-      }, "-=0.3");
-
-      tl.to(".slide-word", {
-        opacity: 1, y: 0,
-        stagger: 0.04, duration: 0.6
-      }, "-=0.3");
-
-      tl.to(".slide-cta", {
-        opacity: 1, y: 0, scale: 1,
-        stagger: 0.15, duration: 0.8, ease: "elastic.out(1, 0.5)"
-      }, "-=0.2");
-
+      tl.to(".slide-badge", { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.05");
+      tl.to(".slide-char", { opacity: 1, y: 0, scale: 1, rotate: 0, stagger: 0.025, duration: 0.7, ease: "back.out(1.7)" }, "-=0.3");
+      tl.to(".slide-word", { opacity: 1, y: 0, stagger: 0.04, duration: 0.6 }, "-=0.3");
+      tl.to(".slide-cta", { opacity: 1, y: 0, scale: 1, stagger: 0.15, duration: 0.8, ease: "elastic.out(1, 0.5)" }, "-=0.2");
     }, ref);
-
     return () => ctx.revert();
   }, [slide]);
 
@@ -227,42 +201,26 @@ function SlideContent({ slide }: { slide: SlideData }) {
     <div ref={ref} className="flex flex-col items-center text-center will-change-transform">
       <div className="slide-badge mb-6 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
         <span className="text-emerald-400 text-sm">●</span>
-        <span className="text-sm font-medium tracking-widest uppercase text-white/90">
-          Premium Digital Craftsmanship
-        </span>
+        <span className="text-sm font-medium tracking-widest uppercase text-white/90">Premium Digital Craftsmanship</span>
       </div>
-
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-tight tracking-tighter text-white mb-6" style={{ perspective: "1000px" }}>
         {titleChars.map((char, i) => (
-          <span
-            key={i}
-            className={`slide-char inline-block will-change-transform ${char === " " ? "w-[0.3em]" : ""}`}
-            aria-hidden={char === " "}
-          >
+          <span key={i} className={`slide-char inline-block will-change-transform ${char === " " ? "w-[0.3em]" : ""}`} aria-hidden={char === " "}>
             {char === " " ? "\u00A0" : char}
           </span>
         ))}
       </h1>
-
       <p className="text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto mb-10 leading-relaxed">
         {subtitleWords.map((word, i) => (
-          <span key={i} className="slide-word inline-block will-change-transform mr-[0.3em]">
-            {word}
-          </span>
+          <span key={i} className="slide-word inline-block will-change-transform mr-[0.3em]">{word}</span>
         ))}
       </p>
-
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <div className="slide-cta pointer-events-auto">
-          <Link href="/projects" className="group flex items-center justify-center gap-3 h-14 px-10 bg-white text-black font-semibold rounded-2xl hover:bg-white/90 transition-all hover:scale-[1.02]">
-            View My Work
-            <BsArrowRight className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <Link href="/projects" className="group flex items-center justify-center gap-3 h-14 px-10 bg-white text-black font-semibold rounded-2xl hover:bg-white/90 transition-all hover:scale-[1.02]">View My Work<BsArrowRight className="group-hover:translate-x-1 transition-transform" /></Link>
         </div>
         <div className="slide-cta pointer-events-auto">
-          <Link href="/contact-me" className="group flex items-center justify-center gap-3 h-14 px-10 border-2 border-white/70 text-white font-semibold rounded-2xl hover:bg-white/10 backdrop-blur-sm transition-all">
-            Book a Consultation
-          </Link>
+          <Link href="/contact-me" className="group flex items-center justify-center gap-3 h-14 px-10 border-2 border-white/70 text-white font-semibold rounded-2xl hover:bg-white/10 backdrop-blur-sm transition-all">Book a Consultation</Link>
         </div>
       </div>
     </div>
@@ -291,6 +249,9 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [flash, setFlash] = useState(false);
 
+  // FIX: Track image aspect ratio to prevent squishing on mobile
+  const imgAspectRef = useRef(16 / 9); 
+
   const ctx = useRef<{ renderer: THREE.WebGLRenderer; scene: THREE.Scene; camera: THREE.PerspectiveCamera; textures: (THREE.Texture | null)[]; activeMesh: THREE.Mesh | null; raf: number; w: number; h: number; } | null>(null);
   const loadedCount = useRef(0);
   const currentSlideRef = useRef(0);
@@ -312,6 +273,12 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
     slides.forEach((slide, i) => {
       loader.load(slide.image, (tex) => {
         tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter; tex.magFilter = THREE.LinearFilter;
+        
+        // FIX: Capture actual image aspect ratio for 3D "cover" calculation
+        if (tex.image) {
+          imgAspectRef.current = tex.image.width / tex.image.height;
+        }
+
         textures[i] = tex; loadedCount.current++; if (loadedCount.current === slides.length) setReady(true);
       }, undefined, () => { textures[i] = new THREE.Texture(); loadedCount.current++; if (loadedCount.current === slides.length) setReady(true); });
     });
@@ -325,7 +292,28 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getMeshSize = useCallback(() => { const c = ctx.current!; const aspect = c.w / c.h; const visibleH = 2 * 60 * Math.tan(40 * (Math.PI / 180)); return { w: visibleH * aspect * 1.2, h: visibleH * 1.2 }; }, []);
+  // ── helper: mesh size to fill viewport (CSS "cover" logic) ───────
+  const getMeshSize = useCallback(() => { 
+    const c = ctx.current!; 
+    const vpAspect = c.w / c.h;
+    const visibleH = 2 * 60 * Math.tan(40 * (Math.PI / 180));
+    const visibleW = visibleH * vpAspect;
+    const imgAspect = imgAspectRef.current;
+
+    let mw, mh;
+    // Calculate cover sizing to prevent squishing on mobile
+    if (vpAspect > imgAspect) {
+      // Viewport is wider than image -> fit to width, crop top/bottom
+      mw = visibleW * 1.2;
+      mh = (visibleW / imgAspect) * 1.2;
+    } else {
+      // Viewport is taller than image -> fit to height, crop left/right
+      mh = visibleH * 1.2;
+      mw = (visibleH * imgAspect) * 1.2;
+    }
+
+    return { w: mw, h: mh }; 
+  }, []);
 
   // ── initial assemble ─────────────────────────
   useEffect(() => {
@@ -364,10 +352,7 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
         onComplete: () => {
           currentSlideRef.current = next;
           setDisplaySlide(next); 
-          
-          // Reset parent wrapper visibility instantly so the child can take over
           gsap.set(textLayerRef.current, { opacity: 1, y: 0, scale: 1 });
-
           setTimeout(() => { setIsTransitioning(false); transitioningRef.current = false; }, 1500);
         }
       });
@@ -385,18 +370,61 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
-  // ── drag scrub ───────────────────────────────
+  // ── drag scrub (FIXED FOR MOBILE SCROLL) ───────
   useEffect(() => {
-    if (!ready || !ctx.current?.activeMesh) return;
+    if (!ready || !ctx.current?.activeMesh || !containerRef.current) return;
     let dragging = false, startX = 0, tl: gsap.core.Timeline | null = null;
-    function scrubStart(x: number) { if (transitioningRef.current) return; dragging = true; startX = x; const mat = ctx.current!.activeMesh!.material as THREE.ShaderMaterial; tl = gsap.timeline(); tl.to(mat.uniforms.uTime, { value: mat.uniforms.uTime.value > 1 ? 0 : 2.5, duration: 3, ease: "none" }); tl.timeScale(0); }
-    function scrubMove(x: number) { if (!dragging || !tl) return; const dx = x - startX; startX = x; tl.progress(tl.progress() + dx * 0.001); }
-    function scrubEnd() { if (!dragging || !tl) return; dragging = false; gsap.to(tl, { timeScale: 1, duration: 0.5 }); }
-    const onMD = (e: MouseEvent) => scrubStart(e.clientX); const onMM = (e: MouseEvent) => scrubMove(e.clientX); const onMU = () => scrubEnd();
-    const onTS = (e: TouchEvent) => { e.preventDefault(); scrubStart(e.touches[0].clientX); }; const onTM = (e: TouchEvent) => { e.preventDefault(); scrubMove(e.touches[0].clientX); }; const onTE = (e: TouchEvent) => { e.preventDefault(); scrubEnd(); };
-    window.addEventListener("mousedown", onMD); window.addEventListener("mousemove", onMM); window.addEventListener("mouseup", onMU);
-    window.addEventListener("touchstart", onTS, { passive: false }); window.addEventListener("touchmove", onTM, { passive: false }); window.addEventListener("touchend", onTE, { passive: false });
-    return () => { window.removeEventListener("mousedown", onMD); window.removeEventListener("mousemove", onMM); window.removeEventListener("mouseup", onMU); window.removeEventListener("touchstart", onTS); window.removeEventListener("touchmove", onTM); window.removeEventListener("touchend", onTE); tl?.kill(); };
+    
+    function scrubStart(x: number) { 
+      if (transitioningRef.current) return; 
+      dragging = true; startX = x; 
+      const mat = ctx.current!.activeMesh!.material as THREE.ShaderMaterial; 
+      tl = gsap.timeline(); 
+      tl.to(mat.uniforms.uTime, { value: mat.uniforms.uTime.value > 1 ? 0 : 2.5, duration: 3, ease: "none" }); 
+      tl.timeScale(0); 
+    }
+    function scrubMove(x: number) { 
+      if (!dragging || !tl) return; 
+      const dx = x - startX; startX = x; 
+      tl.progress(tl.progress() + dx * 0.001); 
+    }
+    function scrubEnd() { 
+      if (!dragging || !tl) return; 
+      dragging = false; 
+      gsap.to(tl, { timeScale: 1, duration: 0.5 }); 
+    }
+
+    // FIX: Bind to the specific slider container instead of `window`
+    // This prevents blocking scroll and clicks on the rest of the mobile page
+    const el = containerRef.current;
+
+    const onMD = (e: MouseEvent) => { e.preventDefault(); scrubStart(e.clientX); }; 
+    const onMM = (e: MouseEvent) => scrubMove(e.clientX); 
+    const onMU = () => scrubEnd();
+    const onML = () => scrubEnd(); // mouse leave
+
+    const onTS = (e: TouchEvent) => { e.preventDefault(); scrubStart(e.touches[0].clientX); }; 
+    const onTM = (e: TouchEvent) => { e.preventDefault(); scrubMove(e.touches[0].clientX); }; 
+    const onTE = (e: TouchEvent) => { e.preventDefault(); scrubEnd(); };
+
+    el.addEventListener("mousedown", onMD); 
+    el.addEventListener("mousemove", onMM); 
+    el.addEventListener("mouseup", onMU); 
+    el.addEventListener("mouseleave", onML);
+    el.addEventListener("touchstart", onTS, { passive: false }); 
+    el.addEventListener("touchmove", onTM, { passive: false }); 
+    el.addEventListener("touchend", onTE, { passive: false }); 
+
+    return () => { 
+      el.removeEventListener("mousedown", onMD); 
+      el.removeEventListener("mousemove", onMM); 
+      el.removeEventListener("mouseup", onMU); 
+      el.removeEventListener("mouseleave", onML);
+      el.removeEventListener("touchstart", onTS); 
+      el.removeEventListener("touchmove", onTM); 
+      el.removeEventListener("touchend", onTE); 
+      tl?.kill(); 
+    };
   }, [ready]);
 
   useEffect(() => { if (flash) { const t = setTimeout(() => setFlash(false), 400); return () => clearTimeout(t); } }, [flash]);
@@ -416,7 +444,6 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
         {isTransitioning && (<motion.div key="glitch-bands" className="absolute inset-0 z-[2] pointer-events-none overflow-hidden" initial={{ opacity: 0 }} animate={{ opacity: [0, 0.6, 0.3, 0.7, 0] }} transition={{ duration: 0.5, times: [0, 0.2, 0.4, 0.6, 1] }}><div className="absolute w-full bg-white/10" style={{ top: "30%", height: "2px" }} /><div className="absolute w-full bg-white/5" style={{ top: "55%", height: "1px" }} /><div className="absolute w-full bg-white/8" style={{ top: "72%", height: "3px" }} /></motion.div>)}
       </AnimatePresence>
 
-      {/* Text Layer controlled by GSAP */}
       <div ref={textLayerRef} className="relative z-10 max-w-5xl mx-auto px-6 pointer-events-none">
         {ready && <SlideContent key={displaySlide} slide={slides[displaySlide]} />}
       </div>
