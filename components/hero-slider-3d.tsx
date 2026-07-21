@@ -249,7 +249,6 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [flash, setFlash] = useState(false);
 
-  // FIX: Track image aspect ratio to prevent squishing on mobile
   const imgAspectRef = useRef(16 / 9); 
 
   const ctx = useRef<{ renderer: THREE.WebGLRenderer; scene: THREE.Scene; camera: THREE.PerspectiveCamera; textures: (THREE.Texture | null)[]; activeMesh: THREE.Mesh | null; raf: number; w: number; h: number; } | null>(null);
@@ -273,12 +272,7 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
     slides.forEach((slide, i) => {
       loader.load(slide.image, (tex) => {
         tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter; tex.magFilter = THREE.LinearFilter;
-        
-        // FIX: Capture actual image aspect ratio for 3D "cover" calculation
-        if (tex.image) {
-          imgAspectRef.current = tex.image.width / tex.image.height;
-        }
-
+        if (tex.image) { imgAspectRef.current = tex.image.width / tex.image.height; }
         textures[i] = tex; loadedCount.current++; if (loadedCount.current === slides.length) setReady(true);
       }, undefined, () => { textures[i] = new THREE.Texture(); loadedCount.current++; if (loadedCount.current === slides.length) setReady(true); });
     });
@@ -301,13 +295,10 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
     const imgAspect = imgAspectRef.current;
 
     let mw, mh;
-    // Calculate cover sizing to prevent squishing on mobile
     if (vpAspect > imgAspect) {
-      // Viewport is wider than image -> fit to width, crop top/bottom
       mw = visibleW * 1.2;
       mh = (visibleW / imgAspect) * 1.2;
     } else {
-      // Viewport is taller than image -> fit to height, crop left/right
       mh = visibleH * 1.2;
       mw = (visibleH * imgAspect) * 1.2;
     }
@@ -370,7 +361,7 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
-  // ── drag scrub (FIXED FOR MOBILE SCROLL) ───────
+  // ── drag scrub (DESKTOP ONLY TO FIX MOBILE SCROLL) ───────
   useEffect(() => {
     if (!ready || !ctx.current?.activeMesh || !containerRef.current) return;
     let dragging = false, startX = 0, tl: gsap.core.Timeline | null = null;
@@ -394,43 +385,36 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
       gsap.to(tl, { timeScale: 1, duration: 0.5 }); 
     }
 
-    // FIX: Bind to the specific slider container instead of `window`
-    // This prevents blocking scroll and clicks on the rest of the mobile page
     const el = containerRef.current;
 
+    // DESKTOP ONLY: Mouse events don't interfere with mobile scrolling
     const onMD = (e: MouseEvent) => { e.preventDefault(); scrubStart(e.clientX); }; 
     const onMM = (e: MouseEvent) => scrubMove(e.clientX); 
     const onMU = () => scrubEnd();
-    const onML = () => scrubEnd(); // mouse leave
-
-    const onTS = (e: TouchEvent) => { e.preventDefault(); scrubStart(e.touches[0].clientX); }; 
-    const onTM = (e: TouchEvent) => { e.preventDefault(); scrubMove(e.touches[0].clientX); }; 
-    const onTE = (e: TouchEvent) => { e.preventDefault(); scrubEnd(); };
+    const onML = () => scrubEnd();
 
     el.addEventListener("mousedown", onMD); 
     el.addEventListener("mousemove", onMM); 
     el.addEventListener("mouseup", onMU); 
     el.addEventListener("mouseleave", onML);
-    el.addEventListener("touchstart", onTS, { passive: false }); 
-    el.addEventListener("touchmove", onTM, { passive: false }); 
-    el.addEventListener("touchend", onTE, { passive: false }); 
+
+    // TOUCH EVENTS COMPLETELY REMOVED TO FIX MOBILE SCROLL LOCK
+    // Mobile users navigate via auto-play and dot buttons.
 
     return () => { 
       el.removeEventListener("mousedown", onMD); 
       el.removeEventListener("mousemove", onMM); 
       el.removeEventListener("mouseup", onMU); 
       el.removeEventListener("mouseleave", onML);
-      el.removeEventListener("touchstart", onTS); 
-      el.removeEventListener("touchmove", onTM); 
-      el.removeEventListener("touchend", onTE); 
       tl?.kill(); 
     };
   }, [ready]);
 
   useEffect(() => { if (flash) { const t = setTimeout(() => setFlash(false), 400); return () => clearTimeout(t); } }, [flash]);
 
+  // Removed 'select-none' class as it can trigger scroll bugs on some iOS WebViews
   return (
-    <section ref={containerRef} className="relative w-full h-full min-h-[680px] flex items-center justify-center overflow-hidden select-none" style={{ cursor: ready ? "pointer" : "default" }}>
+    <section ref={containerRef} className="relative w-full h-full min-h-[680px] flex items-center justify-center overflow-hidden" style={{ cursor: ready ? "pointer" : "default" }}>
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black/85 z-[1] pointer-events-none" />
 
@@ -448,7 +432,7 @@ export default function HeroSlider3D({ slides, autoPlayInterval = 6500, transiti
         {ready && <SlideContent key={displaySlide} slide={slides[displaySlide]} />}
       </div>
 
-      <div className="absolute hidden bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-20 pointer-events-auto">
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-20 pointer-events-auto">
         {slides.map((_, idx) => (
           <button key={idx} onClick={() => goToSlide(idx)} className={`relative w-12 h-1 rounded-full overflow-hidden transition-all hover:bg-white/50 ${idx === displaySlide ? "bg-white/30 scale-110" : "bg-white/15"}`} aria-label={`Go to slide ${idx + 1}`}>
             <motion.div className="absolute top-0 left-0 h-full bg-white rounded-full" initial={{ width: "0%" }} animate={{ width: idx === displaySlide ? "100%" : "0%" }} transition={{ duration: autoPlayInterval / 1000, ease: "linear" }} />
